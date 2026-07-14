@@ -1520,7 +1520,7 @@
     async function refreshStatus() {
       const button = $("#refreshButton");
       button.disabled = true;
-      const javaUrl = `https://api.mcstatus.io/v2/status/java/${encodeURIComponent(CONFIG.javaHost)}?query=false&timeout=5`;
+      const javaUrl = "/api/status";
       const javaData = await fetchJson(javaUrl);
       const bedrockData = { ...javaData, port: CONFIG.bedrockPort };
       const javaState = renderEdition("java", javaData, CONFIG.javaPort);
