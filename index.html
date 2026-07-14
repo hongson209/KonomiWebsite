@@ -1,0 +1,1986 @@
+<!doctype html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071421">
+  <meta name="konomi-build" content="5.0.0">
+  <meta name="description" content="KonomiMC — EcoSword SMP cross-play dành cho Minecraft Java và Bedrock.">
+  <meta property="og:title" content="KonomiMC — EcoSword SMP">
+  <meta property="og:description" content="Theo dõi trạng thái KonomiMC và tham gia trên PC hoặc PE.">
+  <meta property="og:image" content="images/banner.png">
+  <meta property="og:type" content="website">
+  <title>KonomiMC — EcoSword SMP</title>
+  <link rel="icon" type="image/png" href="images/konomimc.png">
+  <link rel="apple-touch-icon" href="images/konomimc.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #06111c;
+      --bg-elevated: #091926;
+      --surface: rgba(12, 31, 46, .78);
+      --surface-solid: #0d2131;
+      --surface-soft: rgba(24, 55, 77, .48);
+      --text: #eefaff;
+      --muted: #96adba;
+      --line: rgba(156, 222, 255, .14);
+      --line-strong: rgba(106, 211, 255, .32);
+      --accent: #31c6ff;
+      --accent-strong: #168cff;
+      --accent-soft: rgba(49, 198, 255, .12);
+      --good: #43dda1;
+      --warn: #ffc65c;
+      --bad: #ff7186;
+      --shadow: 0 24px 70px rgba(0, 6, 15, .38);
+      --radius-sm: 12px;
+      --radius: 18px;
+      --radius-lg: 28px;
+      --header-h: 70px;
+      --container: 1180px;
+    }
+
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f4f9fc;
+      --bg-elevated: #eaf4f9;
+      --surface: rgba(255, 255, 255, .88);
+      --surface-solid: #ffffff;
+      --surface-soft: rgba(226, 241, 249, .76);
+      --text: #102735;
+      --muted: #5e7583;
+      --line: rgba(33, 102, 139, .14);
+      --line-strong: rgba(12, 144, 207, .28);
+      --accent: #008fc7;
+      --accent-strong: #236ee8;
+      --accent-soft: rgba(0, 143, 199, .09);
+      --good: #158c61;
+      --warn: #a86700;
+      --bad: #c9475a;
+      --shadow: 0 22px 60px rgba(34, 95, 128, .13);
+    }
+
+    * { box-sizing: border-box; }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-h) + 24px);
+      scrollbar-gutter: stable;
+      background: var(--bg);
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: clip;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(49, 198, 255, .105), transparent 25rem),
+        radial-gradient(circle at 92% 12%, rgba(22, 140, 255, .09), transparent 28rem),
+        var(--bg);
+      font-family: "Be Vietnam Pro", system-ui, sans-serif;
+      transition: background-color .25s ease, color .25s ease;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .38;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, #000 0, transparent 78%);
+    }
+    html[data-theme="light"] body::before { opacity: .2; }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    img { display: block; max-width: 100%; }
+    ::selection { color: #00141d; background: #72dcff; }
+    :focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, transparent); outline-offset: 3px; }
+
+    .container { width: min(var(--container), calc(100% - 36px)); margin-inline: auto; }
+    .section { padding: 88px 0; content-visibility: auto; contain-intrinsic-size: 700px; }
+    .section-heading { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 470px); gap: 30px; align-items: end; margin-bottom: 30px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--accent); font-size: .72rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent-strong)); }
+    h1, h2, h3, .brand-name { font-family: "Manrope", sans-serif; }
+    .section-title { margin: 10px 0 0; font-size: clamp(2rem, 4.6vw, 3.55rem); line-height: 1.08; letter-spacing: -.055em; }
+    .section-copy { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.82; }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      height: var(--header-h);
+      border-bottom: 1px solid transparent;
+      background: color-mix(in srgb, var(--bg) 72%, transparent);
+      backdrop-filter: blur(18px) saturate(135%);
+      transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+    .site-header.scrolled { border-color: var(--line); background: color-mix(in srgb, var(--bg) 90%, transparent); box-shadow: 0 10px 30px rgba(0, 9, 20, .16); }
+    .header-inner { height: 100%; display: flex; align-items: center; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; min-width: max-content; margin-right: auto; }
+    .brand-icon-wrap {
+      width: 42px; height: 42px; padding: 3px; border-radius: 14px;
+      background: linear-gradient(145deg, rgba(87, 217, 255, .92), rgba(31, 110, 255, .9));
+      box-shadow: 0 10px 24px rgba(25, 156, 255, .22);
+    }
+    .brand-icon { width: 100%; height: 100%; object-fit: cover; border-radius: 11px; background: var(--surface-solid); }
+    .brand-name { display: block; font-size: .98rem; font-weight: 800; letter-spacing: -.03em; }
+    .brand-sub { display: block; margin-top: 1px; color: var(--muted); font-size: .62rem; font-weight: 600; }
+    .nav { display: flex; align-items: center; gap: 2px; }
+    .nav a { padding: 9px 11px; border-radius: 10px; color: var(--muted); font-size: .78rem; font-weight: 700; transition: color .18s ease, background .18s ease; }
+    .nav a:hover, .nav a.active { color: var(--text); background: var(--accent-soft); }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .icon-button {
+      min-width: 39px; height: 39px; padding: 0 11px; border: 1px solid var(--line); border-radius: 11px;
+      display: inline-grid; place-items: center; background: var(--surface); cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .icon-button:hover { transform: translateY(-1px); border-color: var(--line-strong); background: var(--accent-soft); }
+    .icon-button svg { width: 17px; height: 17px; }
+    .lang-button { font-size: .72rem; font-weight: 800; }
+    .menu-button { display: none; }
+
+    .hero { padding: calc(var(--header-h) + 26px) 0 28px; }
+    .hero-stage {
+      min-height: 660px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      isolation: isolate;
+      box-shadow: var(--shadow);
+      background: var(--surface-solid);
+    }
+    .hero-stage::before {
+      content: "";
+      position: absolute; inset: 0; z-index: -3;
+      background-image:
+        linear-gradient(90deg, rgba(3, 16, 27, .94) 0%, rgba(4, 21, 35, .77) 52%, rgba(5, 23, 40, .44) 100%),
+        url("images/banner.png");
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.01);
+    }
+    html[data-theme="light"] .hero-stage::before {
+      background-image:
+        linear-gradient(90deg, rgba(237, 249, 255, .96) 0%, rgba(234, 247, 253, .82) 52%, rgba(225, 244, 252, .58) 100%),
+        url("images/banner.png");
+    }
+    .hero-stage::after {
+      content: "";
+      position: absolute; inset: 0; z-index: -2; pointer-events: none;
+      background:
+        linear-gradient(to top, color-mix(in srgb, var(--bg) 58%, transparent), transparent 36%),
+        repeating-linear-gradient(135deg, transparent 0 28px, rgba(104, 220, 255, .035) 28px 30px);
+    }
+    html[data-theme="light"] .hero-stage::after { background: linear-gradient(to top, rgba(244,249,252,.7), transparent 40%); }
+    .hero-layout { min-height: 660px; padding: clamp(32px, 6vw, 70px); display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(330px, .72fr); gap: 46px; align-items: center; }
+    .status-pill { width: fit-content; display: inline-flex; align-items: center; gap: 9px; padding: 8px 12px; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--accent); background: rgba(5, 25, 40, .42); backdrop-filter: blur(10px); font-size: .72rem; font-weight: 800; }
+    html[data-theme="light"] .status-pill { background: rgba(255,255,255,.68); }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+    .status-dot.online { background: var(--good); box-shadow: 0 0 0 5px color-mix(in srgb, var(--good) 14%, transparent), 0 0 18px color-mix(in srgb, var(--good) 45%, transparent); animation: breathe 1.8s ease-in-out infinite; }
+    .status-dot.maintenance { background: var(--warn); box-shadow: 0 0 0 5px color-mix(in srgb, var(--warn) 14%, transparent); }
+    .status-dot.offline, .status-dot.error { background: var(--bad); box-shadow: 0 0 0 5px color-mix(in srgb, var(--bad) 13%, transparent); }
+    @keyframes breathe { 50% { opacity: .55; transform: scale(.78); } }
+    .hero h1 { margin: 22px 0 15px; max-width: 780px; font-size: clamp(3.25rem, 8vw, 6.8rem); line-height: .95; letter-spacing: -.075em; }
+    .hero h1 .gradient { color: transparent; background: linear-gradient(100deg, #f5fdff 6%, #70ddff 48%, #5e8bff 100%); -webkit-background-clip: text; background-clip: text; }
+    html[data-theme="light"] .hero h1 .gradient { background: linear-gradient(100deg, #102735 4%, #008bbd 52%, #285ddb 100%); -webkit-background-clip: text; background-clip: text; }
+    .hero-lead { max-width: 670px; margin: 0; color: color-mix(in srgb, var(--text) 76%, var(--muted)); font-size: clamp(.98rem, 2vw, 1.12rem); line-height: 1.78; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 28px; }
+    .tag { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; background: rgba(8, 28, 43, .44); color: #bad3de; font-size: .7rem; font-weight: 750; backdrop-filter: blur(8px); }
+    html[data-theme="light"] .tag { color: var(--muted); background: rgba(255,255,255,.66); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .button {
+      min-height: 47px; padding: 0 17px; border: 1px solid var(--line); border-radius: 13px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      background: var(--surface); cursor: pointer; font-size: .82rem; font-weight: 800;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .button:hover { transform: translateY(-2px); border-color: var(--line-strong); }
+    .button.primary { color: #00131b; border-color: transparent; background: linear-gradient(135deg, #66dcff, #4c82ff); box-shadow: 0 13px 32px rgba(27, 155, 255, .23); }
+    .button svg { width: 17px; height: 17px; }
+
+    .join-card {
+      padding: 18px;
+      border: 1px solid rgba(137, 220, 255, .18);
+      border-radius: 24px;
+      background: rgba(5, 24, 39, .74);
+      backdrop-filter: blur(18px) saturate(125%);
+      box-shadow: 0 22px 58px rgba(0, 6, 17, .32);
+    }
+    html[data-theme="light"] .join-card { background: rgba(255,255,255,.82); }
+    .join-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .join-logo-frame { width: 62px; height: 62px; padding: 4px; border-radius: 18px; background: linear-gradient(145deg, var(--accent), #426dff); box-shadow: 0 12px 28px rgba(24, 154, 255, .22); }
+    .join-logo { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; background: var(--surface-solid); }
+    .join-head h2 { margin: 0; font-size: 1.05rem; letter-spacing: -.025em; }
+    .join-head p { margin: 4px 0 0; color: var(--muted); font-size: .7rem; }
+    .connect-card { margin-top: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 16px; background: color-mix(in srgb, var(--surface-soft) 74%, transparent); }
+    .connect-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 11px; }
+    .connect-title { display: flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 800; }
+    .platform-badge { padding: 5px 8px; border-radius: 999px; color: var(--accent); background: var(--accent-soft); font-size: .62rem; font-weight: 900; }
+    .field-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+    .field-row + .field-row { margin-top: 7px; }
+    .field { min-width: 0; padding: 10px 11px; border: 1px solid var(--line); border-radius: 11px; background: color-mix(in srgb, var(--surface-solid) 64%, transparent); }
+    .field-label { color: var(--muted); font-size: .57rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .field-value { margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: "Manrope", sans-serif; font-size: .82rem; font-weight: 800; }
+    .copy-button { width: 39px; height: 39px; border: 1px solid var(--line); border-radius: 11px; display: grid; place-items: center; background: var(--accent-soft); cursor: pointer; transition: transform .16s ease, background .16s ease; }
+    .copy-button:hover { transform: scale(1.04); background: color-mix(in srgb, var(--accent) 18%, transparent); }
+    .copy-button svg { width: 16px; height: 16px; }
+    .join-note { margin: 13px 3px 1px; color: var(--muted); font-size: .66rem; line-height: 1.62; }
+
+    .ticker { margin-top: 20px; border-block: 1px solid var(--line); background: var(--accent-soft); overflow: hidden; }
+    .ticker-track { width: max-content; display: flex; gap: 40px; padding: 11px 0; animation: ticker 28s linear infinite; }
+    .ticker-item { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font-size: .66rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .ticker-item::before { content: "◆"; color: var(--accent); font-size: .52rem; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    .panel { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow); backdrop-filter: blur(12px); }
+    .status-panel { padding: 21px; }
+    .status-summary { display: grid; grid-template-columns: auto 1fr auto; gap: 15px; align-items: center; padding: 2px 2px 19px; border-bottom: 1px solid var(--line); }
+    .status-icon { width: 53px; height: 53px; border: 1px solid var(--line-strong); border-radius: 16px; display: grid; place-items: center; color: var(--accent); background: var(--accent-soft); }
+    .status-icon svg { width: 25px; height: 25px; }
+    .label { color: var(--muted); font-size: .63rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .status-main { margin-top: 4px; font-family: "Manrope", sans-serif; font-size: 1.2rem; font-weight: 800; }
+    .status-time { color: var(--muted); font-size: .64rem; text-align: right; line-height: 1.55; }
+    .refresh-link { margin-top: 3px; padding: 0; border: 0; color: var(--accent); background: none; cursor: pointer; font-size: .65rem; font-weight: 800; }
+    .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 15px; }
+    .edition-card { min-width: 0; padding: 17px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-soft); }
+    .edition-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .edition-name { font-family: "Manrope", sans-serif; font-size: .9rem; font-weight: 800; }
+    .state-badge { padding: 5px 8px; border-radius: 999px; color: var(--muted); background: rgba(127, 159, 176, .1); font-size: .6rem; font-weight: 850; }
+    .state-badge.online { color: var(--good); background: color-mix(in srgb, var(--good) 10%, transparent); }
+    .state-badge.maintenance { color: var(--warn); background: color-mix(in srgb, var(--warn) 11%, transparent); }
+    .state-badge.offline, .state-badge.error { color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, transparent); }
+    .stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 15px 0; }
+    .stat { min-width: 0; padding: 9px; border-radius: 11px; background: color-mix(in srgb, var(--surface-solid) 58%, transparent); }
+    .stat small { display: block; color: var(--muted); font-size: .55rem; }
+    .stat strong { display: block; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: "Manrope", sans-serif; font-size: .77rem; }
+    .motd { min-height: 44px; margin: 0; color: var(--muted); white-space: pre-line; overflow-wrap: anywhere; font-size: .69rem; line-height: 1.55; }
+    .api-note { margin: 13px 3px 0; color: var(--muted); font-size: .63rem; line-height: 1.62; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; }
+    .feature-card { min-height: 235px; padding: 21px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); position: relative; overflow: hidden; transition: transform .22s ease, border-color .22s ease; }
+    .feature-card:hover { transform: translateY(-5px); border-color: var(--line-strong); }
+    .feature-card::after { content: ""; position: absolute; width: 130px; height: 130px; right: -58px; bottom: -64px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 17%, transparent), transparent 70%); }
+    .feature-number { color: color-mix(in srgb, var(--accent) 45%, transparent); font-family: "Manrope", sans-serif; font-size: 2.2rem; font-weight: 800; }
+    .feature-card h3 { margin: 36px 0 9px; font-size: 1rem; }
+    .feature-card p { margin: 0; color: var(--muted); font-size: .75rem; line-height: 1.68; }
+
+    .founder-grid { display: grid; grid-template-columns: 1.42fr .88fr; gap: 16px; }
+    .founder-card { border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+    .founder-primary { min-height: 415px; padding: 26px; display: flex; align-items: flex-end; position: relative; isolation: isolate; }
+    .founder-backdrop { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; }
+    .founder-primary::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(2, 12, 21, .97), rgba(3, 17, 28, .32) 72%, rgba(3,17,28,.12)); }
+    .founder-primary::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: repeating-linear-gradient(135deg, transparent 0 24px, rgba(88, 211, 255, .045) 24px 26px); }
+    .founder-profile { width: 100%; display: flex; align-items: end; gap: 16px; position: relative; z-index: 3; }
+    .avatar { width: 104px; height: 104px; flex: 0 0 auto; object-fit: cover; border: 3px solid rgba(111, 221, 255, .72); border-radius: 24px; background: var(--surface-solid); box-shadow: 0 16px 36px rgba(0,0,0,.32); }
+    .role { display: inline-flex; padding: 6px 9px; border-radius: 999px; color: #00131b; background: #6edfff; font-size: .6rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+    .founder-meta h3 { margin: 9px 0 3px; color: #f3fbff; font-size: clamp(1.65rem, 3vw, 2.35rem); letter-spacing: -.045em; }
+    .founder-meta p { margin: 0; color: #aec7d2; font-size: .78rem; }
+    .founder-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 13px; }
+    .founder-chip { padding: 7px 9px; border: 1px solid rgba(255,255,255,.14); border-radius: 10px; color: #c8e0e9; background: rgba(0,0,0,.18); font-size: .63rem; }
+    .cofounder { min-height: 415px; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+    .cofounder::after { content: ""; position: absolute; width: 250px; height: 250px; right: -120px; top: -115px; border-radius: 50%; background: color-mix(in srgb, var(--accent-strong) 14%, transparent); }
+    .cofounder .avatar { width: 86px; height: 86px; }
+    .cofounder h3 { margin: 16px 0 4px; font-size: 1.5rem; }
+    .cofounder p { margin: 0; color: var(--muted); font-size: .77rem; }
+    .cofounder-note { padding: 14px; border-radius: 14px; color: var(--muted); background: var(--surface-soft); font-size: .7rem; line-height: 1.65; }
+
+    .bank-grid { display: grid; grid-template-columns: 1fr .68fr; gap: 19px; padding: 24px; }
+    .bank-copy h3 { margin: 0; font-size: 1.8rem; letter-spacing: -.04em; }
+    .bank-copy > p { color: var(--muted); font-size: .8rem; line-height: 1.75; }
+    .steps { display: grid; gap: 9px; margin: 20px 0; counter-reset: step; }
+    .step { counter-increment: step; display: flex; align-items: center; gap: 11px; padding: 12px 13px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-soft); font-size: .73rem; }
+    .step::before { content: counter(step); width: 26px; height: 26px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 8px; color: #00131b; background: #68dcff; font-weight: 900; }
+    .warning { padding: 14px; border: 1px solid color-mix(in srgb, var(--warn) 25%, transparent); border-radius: 14px; color: color-mix(in srgb, var(--warn) 74%, var(--text)); background: color-mix(in srgb, var(--warn) 7%, transparent); font-size: .7rem; line-height: 1.65; }
+    .contact-line { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
+    .contact-chip { padding: 8px 10px; border: 1px solid var(--line); border-radius: 11px; color: var(--muted); background: var(--surface-soft); font-size: .66rem; }
+    .bank-card { align-self: start; position: sticky; top: calc(var(--header-h) + 22px); padding: 14px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface-soft); }
+    .bank-qr-stage { width: 100%; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(232,248,255,.94)); }
+    .bank-card img { width: 100%; height: 100%; object-fit: contain; border-radius: 15px; background: transparent; filter: drop-shadow(0 14px 28px rgba(2, 28, 45, .12)); }
+    .bank-card h4 { margin: 13px 0 4px; font-size: .9rem; }
+    .bank-card p { margin: 0; color: var(--muted); font-size: .64rem; line-height: 1.58; }
+
+    .rules-panel { overflow: hidden; }
+    .tabs { display: flex; gap: 6px; padding: 12px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+    .tab { flex: 0 0 auto; padding: 9px 13px; border: 1px solid transparent; border-radius: 11px; color: var(--muted); background: transparent; cursor: pointer; font-size: .71rem; font-weight: 800; }
+    .tab.active { color: var(--text); border-color: var(--line-strong); background: var(--accent-soft); }
+    .rules-content { padding: 21px; }
+    .rule-section + .rule-section { margin-top: 23px; }
+    .rule-section h3 { margin: 0 0 12px; font-size: 1rem; }
+    .rule-list { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 0; padding: 0; list-style: none; }
+    .rule-item { display: flex; gap: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-soft); color: var(--muted); font-size: .7rem; line-height: 1.58; }
+    .rule-mark { width: 23px; height: 23px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 7px; font-weight: 900; }
+    .good .rule-mark { color: var(--good); background: color-mix(in srgb, var(--good) 11%, transparent); }
+    .bad .rule-mark { color: var(--bad); background: color-mix(in srgb, var(--bad) 11%, transparent); }
+    .penalties { display: grid; gap: 9px; }
+    .penalty { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 13px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-soft); }
+    .penalty strong { display: block; font-size: .72rem; }
+    .penalty span { display: block; margin-top: 3px; color: var(--muted); font-size: .64rem; }
+    .penalty-time { color: var(--warn) !important; font-weight: 850; white-space: nowrap; }
+
+    .music-panel { display: grid; grid-template-columns: .8fr 1.2fr; gap: 15px; padding: 18px; }
+    .now-playing { min-height: 240px; padding: 21px; border-radius: 20px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; color: #effcff; background: linear-gradient(145deg, #07273d, #0a5276); }
+    .now-playing::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(135deg, transparent 0 22px, rgba(255,255,255,.035) 22px 24px); }
+    .disc { width: 84px; height: 84px; border-radius: 50%; position: relative; background: conic-gradient(#011521, #0a4566, #011521, #1575a1, #011521); box-shadow: 0 13px 30px rgba(0,0,0,.32); }
+    .disc::after { content: ""; position: absolute; inset: 36%; border: 5px solid rgba(255,255,255,.14); border-radius: 50%; background: #5cd9ff; }
+    .disc.playing { animation: spin 6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .music-meta { position: relative; }
+    .music-meta small { color: #a9cfdd; font-size: .58rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .music-meta h3 { margin: 7px 0 3px; font-size: 1.25rem; }
+    .music-meta p { margin: 0; color: #afd1dd; font-size: .67rem; }
+    .music-side { display: grid; grid-template-rows: auto 1fr; gap: 12px; }
+    .controls { display: grid; grid-template-columns: auto auto auto 1fr auto; gap: 8px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-soft); }
+    .control { width: 37px; height: 37px; border: 0; border-radius: 10px; display: grid; place-items: center; background: color-mix(in srgb, var(--surface-solid) 70%, transparent); cursor: pointer; }
+    .control.main { color: #00131b; background: #62dcff; }
+    .control svg { width: 16px; height: 16px; }
+    .progress { height: 6px; overflow: hidden; border-radius: 99px; background: rgba(128, 165, 181, .2); cursor: pointer; }
+    .progress-bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-strong)); }
+    .time { color: var(--muted); font-size: .59rem; font-variant-numeric: tabular-nums; }
+    .track-list { display: grid; gap: 7px; }
+    .track { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-soft); cursor: pointer; }
+    .track:hover, .track.active { border-color: var(--line-strong); background: var(--accent-soft); }
+    .track-num { color: var(--muted); font-family: "Manrope", sans-serif; font-size: .65rem; font-weight: 800; }
+    .track strong { display: block; font-size: .7rem; }
+    .track small { display: block; margin-top: 2px; color: var(--muted); font-size: .58rem; }
+    .track-duration { color: var(--muted); font-size: .59rem; }
+
+    .footer { padding: 34px 0 40px; border-top: 1px solid var(--line); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+    .footer p { max-width: 650px; margin: 8px 0 0; color: var(--muted); font-size: .63rem; line-height: 1.6; }
+    .footer-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .toast { position: fixed; left: 50%; bottom: 24px; z-index: 200; transform: translate(-50%, 18px); opacity: 0; pointer-events: none; padding: 10px 14px; border: 1px solid var(--line-strong); border-radius: 11px; color: var(--text); background: var(--surface-solid); box-shadow: var(--shadow); font-size: .7rem; font-weight: 800; transition: opacity .2s ease, transform .2s ease; }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+    .cursor-ring { position: fixed; top: 0; left: 0; z-index: 300; width: 24px; height: 24px; pointer-events: none; border: 1px solid rgba(103, 219, 255, .55); border-radius: 50%; transform: translate(-50%, -50%); transition: width .16s ease, height .16s ease, border-color .16s ease, opacity .2s ease; display: none; }
+
+    .music-dock {
+      position: fixed; right: 22px; bottom: 22px; z-index: 190; min-width: 64px; height: 56px; padding: 7px 12px 7px 7px;
+      display: flex; align-items: center; gap: 9px; border: 1px solid var(--line-strong); border-radius: 18px;
+      color: var(--text); background: color-mix(in srgb, var(--surface-solid) 90%, transparent); box-shadow: 0 18px 46px rgba(0, 10, 25, .28);
+      backdrop-filter: blur(18px) saturate(145%); cursor: pointer; overflow: hidden; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .music-dock::before { content: ""; position: absolute; inset: -80% -20%; pointer-events: none; background: conic-gradient(from 90deg, transparent, rgba(70,220,255,.16), transparent 34%); animation: dockOrbit 5s linear infinite; }
+    .music-dock:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 20px 52px rgba(27, 155, 255, .28); }
+    .music-dock-icon { width: 42px; height: 42px; flex: 0 0 auto; position: relative; display: grid; place-items: center; border-radius: 14px; color: #00131b; background: linear-gradient(145deg, #69e3ff, #4a7cff); box-shadow: 0 10px 25px rgba(35, 151, 255, .28); }
+    .music-dock-icon svg { width: 20px; height: 20px; position: relative; z-index: 2; }
+    .music-eq { position: absolute; inset: auto 7px 7px; height: 8px; display: flex; align-items: end; justify-content: center; gap: 2px; opacity: 0; }
+    .music-eq i { width: 2px; height: 3px; border-radius: 99px; background: #00131b; animation: musicEq .72s ease-in-out infinite alternate; }
+    .music-eq i:nth-child(2) { animation-delay: -.22s; }
+    .music-eq i:nth-child(3) { animation-delay: -.44s; }
+    .music-dock.playing .music-eq { opacity: .72; }
+    .music-dock.playing .music-dock-icon { animation: musicPulse 2.4s ease-in-out infinite; }
+    .music-dock.blocked .music-dock-icon::after { content: ""; position: absolute; inset: -5px; border: 1px solid var(--warn); border-radius: 18px; animation: blockedPulse 1.4s ease-out infinite; }
+    .music-dock-copy { position: relative; z-index: 2; display: grid; text-align: left; line-height: 1.05; }
+    .music-dock-copy strong { font: 800 .68rem/1 "Manrope", sans-serif; letter-spacing: .08em; }
+    .music-dock-copy small { margin-top: 4px; color: var(--muted); font-size: .54rem; white-space: nowrap; }
+    @keyframes dockOrbit { to { transform: rotate(360deg); } }
+    @keyframes musicEq { to { height: 8px; } }
+    @keyframes musicPulse { 50% { box-shadow: 0 12px 32px rgba(65, 205, 255, .52); } }
+    @keyframes blockedPulse { to { transform: scale(1.35); opacity: 0; } }
+    @media (max-width: 640px) { .music-dock { right: 14px; bottom: 14px; width: 50px; min-width: 50px; height: 50px; padding: 5px; border-radius: 16px; } .music-dock-icon { width: 38px; height: 38px; } .music-dock-copy { display: none; } }
+    .cursor-ring.hover { width: 38px; height: 38px; border-color: rgba(103, 219, 255, .26); }
+    html[data-theme="light"] .cursor-ring { display: none !important; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+      html[data-theme="dark"] .cursor-ring { display: block; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+    @media (max-width: 1020px) {
+      .nav { display: none; position: fixed; top: var(--header-h); left: 18px; right: 18px; padding: 10px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface-solid); box-shadow: var(--shadow); }
+      .nav.open { display: grid; }
+      .nav a { padding: 11px; }
+      .menu-button { display: inline-grid; }
+      .hero-layout { grid-template-columns: 1fr; min-height: auto; }
+      .hero-stage { min-height: auto; }
+      .join-card { max-width: 620px; }
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .founder-grid { grid-template-columns: 1fr; }
+      .cofounder { min-height: 330px; }
+    }
+    @media (max-width: 760px) {
+      :root { --header-h: 64px; }
+      .container { width: min(100% - 24px, var(--container)); }
+      .section { padding: 66px 0; }
+      .section-heading { grid-template-columns: 1fr; gap: 12px; margin-bottom: 23px; }
+      .hero { padding-top: calc(var(--header-h) + 12px); }
+      .hero-stage { border-radius: 22px; }
+      .hero-stage::before { background-position: 58% center; }
+      .hero-layout { padding: 29px 20px 22px; gap: 31px; }
+      .hero h1 { font-size: clamp(3rem, 18vw, 5.2rem); }
+      .hero-lead { font-size: .9rem; }
+      .hero-actions .button { flex: 1 1 160px; }
+      .join-card { padding: 14px; border-radius: 19px; }
+      .status-grid, .rule-list, .bank-grid, .music-panel { grid-template-columns: 1fr; }
+      .status-summary { grid-template-columns: auto 1fr; }
+      .status-time { grid-column: 1 / -1; text-align: left; padding-left: 68px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .feature-card { min-height: 190px; }
+      .feature-card h3 { margin-top: 22px; }
+      .founder-primary { min-height: 390px; padding: 20px; }
+      .founder-profile { align-items: flex-start; flex-direction: column; }
+      .avatar { width: 88px; height: 88px; border-radius: 20px; }
+      .bank-card { position: static; }
+      .controls { grid-template-columns: auto auto auto 1fr; }
+      .time { grid-column: 1 / -1; text-align: right; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+      .footer-actions { width: 100%; }
+      .footer-actions .button { flex: 1; }
+      .brand-sub { display: none; }
+    }
+    @media (max-width: 420px) {
+      .brand-name { font-size: .9rem; }
+      .lang-button { display: none; }
+      .stat-strip { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 3.1rem; }
+      .field-value { font-size: .74rem; }
+      .penalty { grid-template-columns: 1fr; }
+      .penalty-time { justify-self: start; }
+    }
+  
+
+    /* =========================================================
+       KonomiMC v3 — modern stripe system + native cursor polish
+       ========================================================= */
+    :root {
+      --stripe-a: color-mix(in srgb, var(--accent) 56%, transparent);
+      --stripe-b: color-mix(in srgb, var(--accent-strong) 38%, transparent);
+      --panel-glow: color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+
+    body {
+      cursor: default;
+      background:
+        radial-gradient(circle at 8% -5%, rgba(49, 198, 255, .16), transparent 31rem),
+        radial-gradient(circle at 92% 10%, rgba(50, 96, 255, .13), transparent 30rem),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 96%, #0d3146 4%), var(--bg));
+    }
+
+    a, button, [role="button"], .track, .feature-card { cursor: pointer; }
+
+    /* Native cursor remains untouched; this layer is only a soft spotlight. */
+    .pointer-spotlight {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      width: 420px;
+      height: 420px;
+      pointer-events: none;
+      opacity: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(49,198,255,.105) 0%, rgba(49,198,255,.045) 32%, transparent 70%);
+      transform: translate3d(-999px,-999px,0);
+      will-change: transform;
+      transition: opacity .25s ease;
+      mix-blend-mode: screen;
+    }
+    body.pointer-active .pointer-spotlight { opacity: 1; }
+    html[data-theme="light"] .pointer-spotlight {
+      opacity: 0 !important;
+      display: none;
+    }
+
+    .site-header {
+      border-bottom-color: color-mix(in srgb, var(--line) 80%, transparent);
+    }
+    .site-header::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 2px;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(90deg,
+          var(--accent) 0 34px,
+          var(--accent-strong) 34px 52px,
+          transparent 52px 73px);
+      opacity: .58;
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    }
+    .site-header::after {
+      content: "KONOMI NETWORK  /  JAVA + BEDROCK  /  ECOSWORD";
+      position: absolute;
+      right: max(18px, calc((100vw - var(--container))/2));
+      bottom: -19px;
+      padding: 4px 11px;
+      border: 1px solid var(--line);
+      border-top: 0;
+      border-radius: 0 0 9px 9px;
+      color: var(--muted);
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      font: 800 .5rem/1 "Manrope", sans-serif;
+      letter-spacing: .13em;
+      pointer-events: none;
+    }
+
+    .brand-icon-wrap {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(143,226,255,.5);
+      background: #061623;
+    }
+    .brand-icon-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: repeating-linear-gradient(135deg, transparent 0 7px, rgba(255,255,255,.14) 7px 9px);
+      pointer-events: none;
+      opacity: .48;
+    }
+
+    .hero { padding-top: calc(var(--header-h) + 43px); }
+    .hero-stage {
+      min-height: 690px;
+      border: 1px solid transparent;
+      border-radius: 34px;
+      background:
+        linear-gradient(var(--surface-solid), var(--surface-solid)) padding-box,
+        linear-gradient(125deg, rgba(88,220,255,.72), rgba(64,101,255,.18) 38%, rgba(89,217,255,.42) 70%, rgba(255,255,255,.08)) border-box;
+      box-shadow:
+        0 34px 90px rgba(0, 7, 18, .47),
+        inset 0 0 0 1px rgba(255,255,255,.035);
+    }
+    .hero-stage::after {
+      background:
+        linear-gradient(to top, color-mix(in srgb, var(--bg) 67%, transparent), transparent 42%),
+        repeating-linear-gradient(128deg,
+          transparent 0 20px,
+          rgba(89,218,255,.07) 20px 22px,
+          transparent 22px 42px),
+        linear-gradient(90deg, rgba(48,198,255,.08), transparent 23%, transparent 76%, rgba(51,107,255,.06));
+    }
+    html[data-theme="light"] .hero-stage::after {
+      background:
+        linear-gradient(to top, rgba(244,249,252,.86), transparent 44%),
+        repeating-linear-gradient(128deg, transparent 0 20px, rgba(0,130,185,.055) 20px 22px, transparent 22px 42px);
+    }
+
+    .hero-signal {
+      position: absolute;
+      z-index: 5;
+      inset: 0 0 auto;
+      height: 41px;
+      display: flex;
+      align-items: center;
+      gap: 21px;
+      padding-inline: 24px;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(127,220,255,.16);
+      color: #b9d5e2;
+      background: rgba(2,15,25,.54);
+      backdrop-filter: blur(12px);
+      font: 800 .57rem/1 "Manrope", sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    html[data-theme="light"] .hero-signal { color: var(--muted); background: rgba(248,253,255,.74); }
+    .hero-signal span { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+    .hero-signal span::before { content: ""; width: 6px; height: 6px; border-radius: 2px; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
+    .hero-signal .signal-stripes {
+      margin-left: auto;
+      width: min(32vw, 310px);
+      height: 9px;
+      border-radius: 999px;
+      background: repeating-linear-gradient(115deg, var(--accent) 0 18px, var(--accent-strong) 18px 29px, transparent 29px 39px);
+      opacity: .72;
+    }
+
+    .hero-stripe-stack {
+      position: absolute;
+      z-index: 1;
+      top: 74px;
+      left: 0;
+      width: 9px;
+      height: 210px;
+      background: repeating-linear-gradient(to bottom, var(--accent) 0 28px, transparent 28px 38px, var(--accent-strong) 38px 57px, transparent 57px 68px);
+      box-shadow: 8px 0 30px rgba(49,198,255,.24);
+    }
+    .hero-watermark {
+      position: absolute;
+      z-index: 0;
+      right: -14px;
+      bottom: -28px;
+      color: rgba(155,226,255,.055);
+      font: 900 clamp(5rem, 12vw, 10rem)/.8 "Manrope", sans-serif;
+      letter-spacing: -.09em;
+      pointer-events: none;
+      user-select: none;
+    }
+    html[data-theme="light"] .hero-watermark { color: rgba(0,111,159,.045); }
+
+    .hero-layout {
+      min-height: 690px;
+      padding-top: clamp(78px, 8vw, 105px);
+      position: relative;
+      z-index: 2;
+    }
+    .hero-copy {
+      position: relative;
+      padding-left: 23px;
+    }
+    .hero-copy::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 5px;
+      height: min(80%, 330px);
+      border-radius: 99px;
+      background: linear-gradient(var(--accent), var(--accent-strong), transparent);
+      box-shadow: 0 0 24px rgba(49,198,255,.3);
+    }
+    .hero h1 {
+      text-shadow: 0 18px 45px rgba(0,0,0,.3);
+    }
+    .hero h1 .gradient { filter: drop-shadow(0 0 24px rgba(68,188,255,.22)); }
+    .hero-tags { gap: 10px; }
+    .tag {
+      position: relative;
+      padding: 9px 13px 9px 24px;
+      border-radius: 10px;
+      border-color: rgba(123,218,255,.2);
+      background: rgba(3,21,34,.58);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .tag::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      border-radius: 2px;
+      background: var(--accent);
+      transform: translateY(-50%) rotate(45deg);
+    }
+    html[data-theme="light"] .tag { background: rgba(255,255,255,.74); }
+
+    .join-card,
+    .panel,
+    .feature-card,
+    .founder-card {
+      position: relative;
+    }
+    .join-card::before,
+    .panel::before,
+    .feature-card::before,
+    .founder-card::before {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      inset: 0 0 auto;
+      height: 4px;
+      border-radius: inherit;
+      pointer-events: none;
+      background: repeating-linear-gradient(110deg, var(--accent) 0 22px, var(--accent-strong) 22px 36px, transparent 36px 49px);
+      opacity: .64;
+      mask-image: linear-gradient(90deg, #000, #000 42%, transparent 92%);
+    }
+    .join-card {
+      border-color: rgba(118,220,255,.28);
+      box-shadow: 0 26px 70px rgba(0,6,17,.42), inset 0 1px rgba(255,255,255,.04);
+    }
+    .join-card::after {
+      content: "ACCESS NODE 01";
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      color: rgba(161,215,235,.46);
+      font: 800 .48rem/1 "Manrope", sans-serif;
+      letter-spacing: .14em;
+    }
+    .connect-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .connect-card:hover {
+      transform: translateX(-3px);
+      border-color: var(--line-strong);
+      box-shadow: 8px 0 24px rgba(35,164,255,.09);
+    }
+    .connect-card::after {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background: linear-gradient(var(--accent), var(--accent-strong));
+    }
+
+    .button.primary {
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 38px rgba(27,155,255,.28), inset 0 1px rgba(255,255,255,.3);
+    }
+    .button.primary::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(115deg, transparent 0 18px, rgba(255,255,255,.16) 18px 20px, transparent 20px 39px);
+      transform: translateX(-45%);
+      transition: transform .35s ease;
+    }
+    .button.primary:hover::after { transform: translateX(25%); }
+    .button > * { position: relative; z-index: 1; }
+
+    .ticker {
+      position: relative;
+      margin-top: 25px;
+      border-block-color: color-mix(in srgb, var(--accent) 22%, var(--line));
+      background:
+        repeating-linear-gradient(115deg, rgba(49,198,255,.08) 0 18px, rgba(37,94,255,.055) 18px 28px, transparent 28px 41px),
+        var(--accent-soft);
+    }
+    .ticker::before,
+    .ticker::after { content: ""; position: absolute; z-index: 2; top: 0; bottom: 0; width: 80px; pointer-events: none; }
+    .ticker::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
+    .ticker::after { right: 0; background: linear-gradient(-90deg, var(--bg), transparent); }
+
+    main { counter-reset: konomiSection; }
+    .section { counter-increment: konomiSection; position: relative; }
+    .section::before {
+      content: "";
+      position: absolute;
+      top: 32px;
+      left: max(18px, calc((100vw - var(--container))/2));
+      width: min(270px, 28vw);
+      height: 6px;
+      border-radius: 999px;
+      background: repeating-linear-gradient(115deg, var(--accent) 0 20px, var(--accent-strong) 20px 32px, transparent 32px 45px);
+      opacity: .32;
+    }
+    .section-heading {
+      position: relative;
+      padding-top: 23px;
+    }
+    .section-heading::before {
+      content: "0" counter(konomiSection);
+      position: absolute;
+      top: -7px;
+      right: 0;
+      color: color-mix(in srgb, var(--accent) 17%, transparent);
+      font: 900 clamp(3.7rem,8vw,6.6rem)/1 "Manrope", sans-serif;
+      letter-spacing: -.08em;
+      pointer-events: none;
+    }
+    .section-title {
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel,
+    .feature-card,
+    .founder-card {
+      border-color: color-mix(in srgb, var(--line) 84%, var(--accent) 16%);
+      box-shadow: 0 25px 75px rgba(0,8,20,.31), inset 0 1px rgba(255,255,255,.03);
+    }
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -45px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, var(--panel-glow), transparent 69%);
+    }
+
+    .status-panel { overflow: hidden; }
+    .status-panel > * { position: relative; z-index: 1; }
+    .status-panel::after {
+      inset: 0 0 0 auto;
+      width: 44%;
+      height: 100%;
+      border-radius: 0;
+      background: repeating-linear-gradient(125deg, transparent 0 22px, rgba(61,205,255,.035) 22px 24px, transparent 24px 43px);
+    }
+    .edition-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .edition-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background: linear-gradient(var(--accent), transparent);
+      opacity: .75;
+    }
+
+    .feature-grid { gap: 16px; }
+    .feature-card {
+      min-height: 255px;
+      padding: 26px;
+      isolation: isolate;
+      background:
+        linear-gradient(150deg, color-mix(in srgb, var(--surface) 91%, var(--accent) 9%), var(--surface));
+    }
+    .feature-card::after {
+      z-index: -1;
+      width: 200px;
+      height: 200px;
+      right: -92px;
+      bottom: -108px;
+      background:
+        repeating-radial-gradient(circle, rgba(83,210,255,.12) 0 2px, transparent 2px 12px);
+      opacity: .58;
+    }
+    .feature-card:nth-child(even)::before {
+      background: repeating-linear-gradient(110deg, var(--accent-strong) 0 22px, var(--accent) 22px 36px, transparent 36px 49px);
+    }
+    .feature-number {
+      display: inline-grid;
+      place-items: center;
+      width: 56px;
+      height: 36px;
+      border: 1px solid var(--line-strong);
+      border-radius: 9px;
+      color: var(--accent);
+      background: var(--accent-soft);
+      font-size: 1rem;
+      letter-spacing: .05em;
+    }
+    .feature-card h3 { margin-top: 58px; font-size: 1.08rem; }
+
+    .founder-primary::after {
+      background:
+        repeating-linear-gradient(128deg, transparent 0 18px, rgba(88,211,255,.08) 18px 20px, transparent 20px 38px),
+        linear-gradient(90deg, rgba(39,201,255,.1), transparent 42%);
+    }
+    .founder-primary .role {
+      box-shadow: 0 0 24px rgba(91,218,255,.22);
+    }
+    .cofounder {
+      background:
+        repeating-linear-gradient(125deg, transparent 0 28px, rgba(54,191,255,.035) 28px 30px),
+        var(--surface);
+    }
+
+    .rules-panel, .music-panel, .bank-grid { overflow: hidden; }
+    .tabs {
+      background: repeating-linear-gradient(115deg, rgba(49,198,255,.045) 0 18px, transparent 18px 36px);
+    }
+    .tab.active { box-shadow: inset 0 -2px var(--accent); }
+
+    .footer {
+      position: relative;
+      overflow: hidden;
+    }
+    .footer::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 5px;
+      background: repeating-linear-gradient(110deg, var(--accent) 0 26px, var(--accent-strong) 26px 40px, transparent 40px 56px);
+      opacity: .55;
+    }
+
+    html[data-theme="light"] body {
+      background:
+        radial-gradient(circle at 8% -5%, rgba(0,151,208,.09), transparent 31rem),
+        radial-gradient(circle at 92% 10%, rgba(49,91,218,.07), transparent 30rem),
+        var(--bg);
+    }
+    html[data-theme="light"] .panel,
+    html[data-theme="light"] .feature-card,
+    html[data-theme="light"] .founder-card,
+    html[data-theme="light"] .join-card {
+      box-shadow: 0 22px 62px rgba(34,95,128,.12), inset 0 1px rgba(255,255,255,.8);
+    }
+    html[data-theme="light"] .hero h1 { text-shadow: none; }
+
+    @media (max-width: 900px) {
+      .site-header::after { display: none; }
+      .hero-signal { gap: 13px; padding-inline: 17px; }
+      .hero-signal span:nth-child(2) { display: none; }
+      .hero-signal .signal-stripes { width: 120px; }
+      .hero-stripe-stack { display: none; }
+      .hero-copy { padding-left: 0; }
+      .hero-copy::before { display: none; }
+      .hero-watermark { right: -4px; font-size: 5.5rem; }
+      .section-heading::before { opacity: .7; font-size: 4.2rem; }
+    }
+
+    @media (max-width: 620px) {
+      .hero { padding-top: calc(var(--header-h) + 29px); }
+      .hero-stage { border-radius: 24px; min-height: auto; }
+      .hero-signal { height: 36px; font-size: .49rem; }
+      .hero-signal .signal-stripes { width: 84px; height: 7px; }
+      .hero-layout { min-height: auto; padding-top: 67px; }
+      .hero-watermark { display: none; }
+      .section::before { top: 22px; width: 150px; }
+      .section-heading::before { right: 2px; top: 0; font-size: 3.3rem; }
+      .feature-card { min-height: 218px; }
+      .feature-card h3 { margin-top: 38px; }
+      .join-card::after { display: none; }
+    }
+
+    @media (pointer: coarse), (prefers-reduced-motion: reduce) {
+      .pointer-spotlight { display: none !important; }
+      .button.primary::after { display: none; }
+    }
+
+
+    /* =========================================================
+       KonomiMC v5 — animated founder media + unified status + smart BGM + locale fix
+       ========================================================= */
+    .cursor-canvas,
+    .neon-cursor {
+      display: none;
+      position: fixed;
+      inset: 0 auto auto 0;
+      pointer-events: none;
+      user-select: none;
+    }
+    .cursor-canvas {
+      z-index: 9997;
+      width: 100vw;
+      height: 100vh;
+    }
+    .neon-cursor {
+      --cursor-scale: 1;
+      --cursor-speed: 0;
+      z-index: 9998;
+      width: 38px;
+      height: 38px;
+      opacity: 0;
+      border-radius: 50%;
+      transform: translate3d(-120px, -120px, 0) translate(-50%, -50%) scale(var(--cursor-scale));
+      will-change: transform, opacity;
+      transition: opacity .16s ease, filter .18s ease;
+      filter: drop-shadow(0 0 calc(8px + var(--cursor-speed) * 11px) rgba(64, 211, 255, .58));
+      mix-blend-mode: screen;
+    }
+    .neon-cursor.visible { opacity: 1; }
+    .cursor-core,
+    .cursor-halo,
+    .cursor-orbit,
+    .cursor-brackets {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-core {
+      width: 7px;
+      height: 7px;
+      background: radial-gradient(circle at 35% 30%, #fff 0 16%, #8aebff 34%, #23bfff 66%, rgba(29, 126, 255, .5) 100%);
+      box-shadow:
+        0 0 8px rgba(170, 241, 255, .98),
+        0 0 22px rgba(43, 192, 255, .92),
+        0 0 42px rgba(39, 105, 255, .56);
+    }
+    .cursor-halo-a {
+      width: 27px;
+      height: 27px;
+      border: 1px solid rgba(120, 232, 255, .72);
+      box-shadow: inset 0 0 9px rgba(62, 205, 255, .16), 0 0 13px rgba(50, 196, 255, .22);
+    }
+    .cursor-halo-b {
+      width: 37px;
+      height: 37px;
+      background: conic-gradient(from 30deg,
+        transparent 0 8%, rgba(89, 225, 255, .92) 9% 19%, transparent 20% 43%,
+        rgba(76, 103, 255, .82) 44% 57%, transparent 58% 79%, rgba(126, 239, 255, .7) 80% 88%, transparent 89% 100%);
+      -webkit-mask: radial-gradient(circle, transparent 60%, #000 62% 67%, transparent 69%);
+      mask: radial-gradient(circle, transparent 60%, #000 62% 67%, transparent 69%);
+      animation: cursor-spin 3.2s linear infinite;
+      opacity: .86;
+    }
+    .cursor-orbit {
+      width: 42px;
+      height: 42px;
+      animation: cursor-spin-reverse 2.2s linear infinite;
+    }
+    .cursor-orbit i {
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #b9f5ff;
+      box-shadow: 0 0 8px #59dfff, 0 0 16px rgba(73, 111, 255, .8);
+      transform: translateX(-50%);
+    }
+    .cursor-orbit i:nth-child(2) {
+      top: auto;
+      bottom: 3px;
+      width: 3px;
+      height: 3px;
+      background: #8194ff;
+    }
+    .cursor-brackets {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      opacity: 0;
+      background:
+        linear-gradient(var(--accent), var(--accent)) left top / 8px 1px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) left top / 1px 8px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) right top / 8px 1px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) right top / 1px 8px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) left bottom / 8px 1px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) left bottom / 1px 8px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) right bottom / 8px 1px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) right bottom / 1px 8px no-repeat;
+      transition: opacity .16s ease, width .18s ease, height .18s ease, transform .2s ease;
+    }
+    body.cursor-hover .neon-cursor { --cursor-scale: 1.18; }
+    body.cursor-hover .cursor-brackets {
+      width: 56px;
+      height: 56px;
+      opacity: .72;
+      transform: translate(-50%, -50%) rotate(8deg);
+    }
+    body.cursor-down .neon-cursor { --cursor-scale: .76; filter: drop-shadow(0 0 18px rgba(126, 235, 255, .95)); }
+    body.cursor-down .cursor-halo-b { animation-duration: .42s; }
+    html[data-theme="light"] .neon-cursor {
+      mix-blend-mode: normal;
+      filter: drop-shadow(0 0 calc(6px + var(--cursor-speed) * 7px) rgba(0, 130, 190, .32));
+    }
+    html[data-theme="light"] .cursor-core {
+      background: radial-gradient(circle at 35% 30%, #fff 0 14%, #88e7ff 35%, #008ec8 70%, #244dca 100%);
+      box-shadow: 0 0 7px rgba(0, 144, 200, .48), 0 0 17px rgba(44, 86, 218, .27);
+    }
+    html[data-theme="light"] .cursor-halo-a { border-color: rgba(0, 131, 181, .58); }
+    html[data-theme="light"] .cursor-halo-b { opacity: .68; }
+    @keyframes cursor-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+    @keyframes cursor-spin-reverse { to { transform: translate(-50%, -50%) rotate(-360deg); } }
+
+    @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+      html.cursor-enhanced,
+      html.cursor-enhanced body,
+      html.cursor-enhanced a,
+      html.cursor-enhanced button,
+      html.cursor-enhanced input,
+      html.cursor-enhanced textarea,
+      html.cursor-enhanced select,
+      html.cursor-enhanced [role="button"],
+      html.cursor-enhanced .track,
+      html.cursor-enhanced .feature-card { cursor: none !important; }
+      html.cursor-enhanced .cursor-canvas,
+      html.cursor-enhanced .neon-cursor { display: block; }
+    }
+    @media (pointer: coarse), (prefers-reduced-motion: reduce) {
+      .cursor-canvas,
+      .neon-cursor { display: none !important; }
+    }
+
+  </style>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="KonomiMC home">
+        <span class="brand-icon-wrap"><img class="brand-icon" src="images/konomimc.png" alt="KonomiMC icon"></span>
+        <span><span class="brand-name">KonomiMC</span><span class="brand-sub">EcoSword SMP · Java + Bedrock</span></span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#status" data-i18n="nav.status">Trạng thái</a>
+        <a href="#about" data-i18n="nav.about">Giới thiệu</a>
+        <a href="#founders" data-i18n="nav.founders">Founder</a>
+        <a href="#bank" data-i18n="nav.bank">Nạp server</a>
+        <a href="#rules" data-i18n="nav.rules">Luật</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button lang-button" id="langButton" type="button" aria-label="Ngôn ngữ hiện tại: Tiếng Việt" title="Tiếng Việt">VI</button>
+        <button class="icon-button" id="themeButton" type="button" aria-label="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/></svg>
+        </button>
+        <button class="icon-button menu-button" id="menuButton" type="button" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-stage">
+          <div class="hero-signal" aria-hidden="true"><span>Konomi Network</span><span>EcoSword Protocol</span><i class="signal-stripes"></i></div>
+          <div class="hero-stripe-stack" aria-hidden="true"></div>
+          <div class="hero-watermark" aria-hidden="true">ECOSWORD</div>
+          <div class="hero-layout">
+            <div class="hero-copy">
+              <div class="status-pill"><span class="status-dot" id="heroDot"></span><span id="heroStatus" data-i18n="status.checking">Đang kiểm tra máy chủ…</span></div>
+              <h1>Konomi<span class="gradient">MC</span></h1>
+              <p class="hero-lead" data-i18n="hero.lead">Một thế giới EcoSword SMP dành cho cả Java và Bedrock — nơi kinh tế, sinh tồn và cộng đồng cùng tạo nên hành trình riêng của bạn.</p>
+              <div class="hero-tags"><span class="tag">EcoSword</span><span class="tag">Survival</span><span class="tag">Cross-play</span><span class="tag">1.21+</span></div>
+              <div class="hero-actions">
+                <button class="button primary copy-action" data-copy="konomimc.top" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+                  <span data-i18n="hero.copy">Sao chép IP PC</span>
+                </button>
+                <a class="button" href="https://discord.gg/8pRctVuqub" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.54 5.34A16.4 16.4 0 0 0 15.44 4l-.5 1.02a15.1 15.1 0 0 0-5.87 0L8.56 4a16.4 16.4 0 0 0-4.1 1.34C1.86 9.18 1.16 12.9 1.5 16.56a16.5 16.5 0 0 0 5.03 2.55l1.23-1.68a10.8 10.8 0 0 1-1.93-.92l.48-.37a11.72 11.72 0 0 0 11.38 0l.49.37c-.62.36-1.27.67-1.94.92l1.23 1.68a16.5 16.5 0 0 0 5.03-2.55c.4-4.24-.68-7.93-2.96-11.22ZM8.5 14.6c-1.1 0-2-1.02-2-2.27s.88-2.27 2-2.27 2.02 1.03 2 2.27c0 1.25-.9 2.27-2 2.27Zm7 0c-1.1 0-2-1.02-2-2.27s.88-2.27 2-2.27 2.02 1.03 2 2.27c0 1.25-.9 2.27-2 2.27Z"/></svg>
+                  Discord
+                </a>
+              </div>
+            </div>
+
+            <aside class="join-card" aria-label="Server addresses">
+              <div class="join-head">
+                <span class="join-logo-frame"><img class="join-logo" id="serverIcon" src="images/konomimc.png" alt="KonomiMC server icon"></span>
+                <div><h2 data-i18n="join.title">Tham gia máy chủ</h2><p data-i18n="join.open">Mở cửa từ 15/07/2026</p></div>
+              </div>
+
+              <div class="connect-card">
+                <div class="connect-head"><span class="connect-title">PC · Java Edition</span><span class="platform-badge">PC</span></div>
+                <div class="field-row">
+                  <div class="field"><div class="field-label">IP</div><div class="field-value">konomimc.top</div></div>
+                  <button class="copy-button copy-action" data-copy="konomimc.top" type="button" aria-label="Copy Java IP"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button>
+                </div>
+              </div>
+
+              <div class="connect-card">
+                <div class="connect-head"><span class="connect-title">PE · Bedrock Edition</span><span class="platform-badge">PE</span></div>
+                <div class="field-row">
+                  <div class="field"><div class="field-label">IP</div><div class="field-value">pe.konomimc.top</div></div>
+                  <button class="copy-button copy-action" data-copy="pe.konomimc.top" type="button" aria-label="Copy Bedrock IP"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button>
+                </div>
+                <div class="field-row">
+                  <div class="field"><div class="field-label">Port</div><div class="field-value">19002</div></div>
+                  <button class="copy-button copy-action" data-copy="19002" type="button" aria-label="Copy Bedrock port"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button>
+                </div>
+              </div>
+              <p class="join-note" data-i18n="join.note">Nếu MOTD chứa “bảo trì” — kể cả chữ kiểu cách — website sẽ tự chuyển trạng thái sang Bảo trì.</p>
+            </aside>
+          </div>
+        </div>
+      </div>
+      <div class="ticker" aria-hidden="true"><div class="ticker-track"><span class="ticker-item">EcoSword SMP</span><span class="ticker-item">Java + Bedrock</span><span class="ticker-item">KonomiMC Community</span><span class="ticker-item">Live server status</span><span class="ticker-item">EcoSword SMP</span><span class="ticker-item">Java + Bedrock</span><span class="ticker-item">KonomiMC Community</span><span class="ticker-item">Live server status</span></div></div>
+    </section>
+
+    <section class="section" id="status">
+      <div class="container">
+        <div class="section-heading reveal"><div><span class="eyebrow" data-i18n="status.kicker">Live status</span><h2 class="section-title" data-i18n="status.title">Máy chủ đang hoạt động thế nào?</h2></div><p class="section-copy" data-i18n="status.desc">PC là nguồn trạng thái chính; PE tự đồng bộ Online, Offline hoặc Bảo trì theo PC và MOTD.</p></div>
+        <div class="panel status-panel reveal">
+          <div class="status-summary">
+            <div class="status-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></svg></div>
+            <div><div class="label" data-i18n="status.overall">Trạng thái tổng</div><div class="status-main" id="overallState">Đang kiểm tra…</div></div>
+            <div class="status-time"><span id="lastUpdated">—</span><br><button class="refresh-link" id="refreshButton" type="button" data-i18n="status.refresh">Làm mới</button></div>
+          </div>
+          <div class="status-grid">
+            <article class="edition-card" id="javaCard">
+              <div class="edition-head"><span class="edition-name">Java · PC</span><span class="state-badge" id="javaBadge">—</span></div>
+              <div class="stat-strip"><div class="stat"><small data-i18n="status.players">Người chơi</small><strong id="javaPlayers">—</strong></div><div class="stat"><small data-i18n="status.version">Phiên bản</small><strong id="javaVersion">—</strong></div><div class="stat"><small>Port</small><strong id="javaPort">25565</strong></div></div>
+              <p class="motd" id="javaMotd">Đang lấy MOTD…</p>
+            </article>
+            <article class="edition-card" id="bedrockCard">
+              <div class="edition-head"><span class="edition-name">Bedrock · PE</span><span class="state-badge" id="bedrockBadge">—</span></div>
+              <div class="stat-strip"><div class="stat"><small data-i18n="status.players">Người chơi</small><strong id="bedrockPlayers">—</strong></div><div class="stat"><small data-i18n="status.version">Phiên bản</small><strong id="bedrockVersion">—</strong></div><div class="stat"><small>Port</small><strong id="bedrockPort">19002</strong></div></div>
+              <p class="motd" id="bedrockMotd">Đang lấy MOTD…</p>
+            </article>
+          </div>
+          <p class="api-note" data-i18n="status.apiNote">PE dùng chung trạng thái với PC để tránh báo lệch. Bảo trì được nhận diện trực tiếp từ MOTD của PC.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-heading reveal"><div><span class="eyebrow" data-i18n="about.kicker">Konomi experience</span><h2 class="section-title" data-i18n="about.title">Một SMP có bản sắc riêng.</h2></div><p class="section-copy" data-i18n="about.desc">KonomiMC hướng tới trải nghiệm đẹp, dễ tham gia và đủ chiều sâu để người chơi gắn bó lâu dài.</p></div>
+        <div class="feature-grid">
+          <article class="feature-card reveal"><span class="feature-number">01</span><h3>EcoSword</h3><p data-i18n="about.ecosword">Chế độ nổi bật kết hợp tiến trình kinh tế với những cuộc đối đầu bằng kiếm.</p></article>
+          <article class="feature-card reveal"><span class="feature-number">02</span><h3 data-i18n="about.crossTitle">Cross-play thật sự</h3><p data-i18n="about.cross">Java và Bedrock cùng tham gia một cộng đồng, với địa chỉ riêng dễ nhớ cho từng nền tảng.</p></article>
+          <article class="feature-card reveal"><span class="feature-number">03</span><h3 data-i18n="about.economyTitle">Kinh tế có tiến trình</h3><p data-i18n="about.economy">Farm, bán vật phẩm, nâng hệ số và xây dựng tài sản theo cách chơi của riêng bạn.</p></article>
+          <article class="feature-card reveal"><span class="feature-number">04</span><h3 data-i18n="about.communityTitle">Cộng đồng trước tiên</h3><p data-i18n="about.community">Luật rõ ràng, hạn chế gian lận và xây dựng môi trường thân thiện cho cả người mới.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="founders">
+      <div class="container">
+        <div class="section-heading reveal"><div><span class="eyebrow" data-i18n="founder.kicker">Leadership</span><h2 class="section-title" data-i18n="founder.title">Hai người đứng sau KonomiMC.</h2></div><p class="section-copy">Founder chịu trách nhiệm phát triển, vận hành và duy trì tiêu chuẩn cộng đồng của máy chủ.</p></div>
+        <div class="founder-grid">
+          <article class="founder-card founder-primary reveal">
+            <img class="founder-backdrop" src="images/banner.gif?v=5" alt="" aria-hidden="true" decoding="async">
+            <div class="founder-profile"><img class="avatar" src="images/sonavatar.gif?v=5" alt="EmaVietNam" decoding="async"><div class="founder-meta"><span class="role">Founder · Bank Admin</span><h3>EmaVietNam</h3><p>Nguyễn Hồng Sơn</p><div class="founder-chips"><span class="founder-chip">Server Development</span><span class="founder-chip">Economy & Systems</span><span class="founder-chip">4h3svn@gmail.com</span></div></div></div>
+          </article>
+          <article class="founder-card cofounder reveal">
+            <div><img class="avatar" src="images/lorley.png" alt="Lorley"><h3>Lorley</h3><p>Hoàng Trần · Co-Founder</p></div>
+            <div class="cofounder-note" data-i18n="founder.lorleyNote">Đồng sáng lập, hỗ trợ vận hành cộng đồng và phụ trách liên hệ nạp bằng thẻ.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="bank">
+      <div class="container">
+        <div class="section-heading reveal"><div><span class="eyebrow" data-i18n="bank.kicker">Official support</span><h2 class="section-title" data-i18n="bank.title">Bank Admin & nạp server.</h2></div><p class="section-copy" data-i18n="bank.desc">Kênh hỗ trợ chính thức do Founder Nguyễn Hồng Sơn quản lý. Luôn ghi đúng tên nhân vật để được xử lý chính xác.</p></div>
+        <div class="panel bank-grid reveal">
+          <div class="bank-copy"><h3 data-i18n="bank.heading">Nạp qua QR chính thức</h3><p data-i18n="bank.body">Quét mã trong ảnh, nhập nội dung chuyển khoản theo mẫu và giữ lại biên lai. Hệ thống nạp mở từ ngày 15/07/2026.</p><div class="steps"><div class="step" data-i18n="bank.step1">Quét QR của Bank Admin Nguyễn Hồng Sơn.</div><div class="step" data-i18n="bank.step2">Nội dung: TÊN NGƯỜI CHƠI - KONOMI.</div><div class="step" data-i18n="bank.step3">Gửi biên lai qua Discord nếu giao dịch chưa được xử lý.</div></div><div class="warning" data-i18n-html="bank.warning"><strong>Lưu ý:</strong> Nạp bằng thẻ liên hệ Hoàng Trần và giá trị quy đổi còn 80% (trừ 20%). Nghiêm cấm mua bán vật phẩm hoặc tiền tệ trong game bằng VNĐ giữa người chơi.</div><div class="contact-line"><a class="contact-chip" href="mailto:4h3svn@gmail.com">4h3svn@gmail.com</a><a class="contact-chip" href="https://discord.gg/8pRctVuqub" target="_blank" rel="noopener">Discord Support</a></div></div>
+          <aside class="bank-card"><div class="bank-qr-stage"><img src="images/bank.png?v=5" alt="KonomiMC Bank Admin QR"></div><h4>Bank Admin · EmaVietNam</h4><p data-i18n="bank.qrNote">Tên người chơi phải trùng với tài khoản trên server. Không công khai biên lai có thông tin nhạy cảm.</p></aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="rules">
+      <div class="container">
+        <div class="section-heading reveal"><div><span class="eyebrow" data-i18n="rules.kicker">Community standard</span><h2 class="section-title" data-i18n="rules.title">Luật Konomi SMP & Discord.</h2></div><p class="section-copy" data-i18n="rules.desc">Tham gia máy chủ đồng nghĩa bạn đã đọc và đồng ý tuân thủ các quy định dưới đây.</p></div>
+        <div class="panel rules-panel reveal">
+          <div class="tabs"><button class="tab active" data-rule-tab="minecraft" type="button" data-i18n="rules.minecraft">Minecraft</button><button class="tab" data-rule-tab="discord" type="button">Discord</button><button class="tab" data-rule-tab="penalties" type="button" data-i18n="rules.penalties">Xử phạt</button></div>
+          <div class="rules-content" id="rulesContent"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="music">
+      <div class="container">
+        <div class="section-heading reveal"><div><span class="eyebrow" data-i18n="music.kicker">Konomi waves</span><h2 class="section-title" data-i18n="music.title">Playlist nghe trực tuyến.</h2></div><p class="section-copy" data-i18n="music.desc">Nhạc nền anime-inspired sẽ thử tự phát ở âm lượng nhẹ; nếu trình duyệt chặn, nó bắt đầu ngay ở lần tương tác đầu tiên.</p></div>
+        <div class="panel music-panel reveal">
+          <div class="now-playing"><div class="disc" id="disc"></div><div class="music-meta"><small data-i18n="music.now">Đang phát</small><h3 id="trackTitle">Aqua Horizon</h3><p id="trackArtist">Konomi Waves · Online stream</p></div></div>
+          <div class="music-side"><div class="controls"><button class="control" id="prevTrack" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zm3.5 7L18 5v14z"/></svg></button><button class="control main" id="playTrack" type="button" aria-label="Play"><svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><button class="control" id="nextTrack" type="button" aria-label="Next"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM6 5v14l8.5-7z"/></svg></button><div class="progress" id="progress"><div class="progress-bar" id="progressBar"></div></div><span class="time" id="timeLabel">0:00 / 0:00</span></div><div class="track-list" id="trackList"></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="container footer-inner"><div><a class="brand" href="#top"><span class="brand-icon-wrap"><img class="brand-icon" src="images/konomimc.png" alt="KonomiMC"></span><span><span class="brand-name">KonomiMC</span><span class="brand-sub">EcoSword SMP</span></span></a><p data-i18n="footer.note">Không phải sản phẩm chính thức của Mojang hoặc Microsoft. Minecraft là nhãn hiệu của chủ sở hữu tương ứng.</p></div><div class="footer-actions"><button class="button copy-action" data-copy="konomimc.top" type="button">konomimc.top</button><a class="button primary" href="https://discord.gg/8pRctVuqub" target="_blank" rel="noopener">Discord</a></div></div></footer>
+
+  <button class="music-dock" id="musicDock" type="button" aria-label="Bật hoặc tắt nhạc nền">
+    <span class="music-dock-icon"><svg id="musicDockSvg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18V5l10-2v13a3 3 0 1 1-2-2.83V7.4l-6 1.2V18a3 3 0 1 1-2-2.83Z"/></svg><span class="music-eq"><i></i><i></i><i></i></span></span>
+    <span class="music-dock-copy"><strong>BGM</strong><small id="musicDockState">AUTO</small></span>
+  </button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <canvas class="cursor-canvas" id="cursorCanvas" aria-hidden="true"></canvas>
+  <div class="neon-cursor" id="neonCursor" aria-hidden="true">
+    <span class="cursor-core"></span>
+    <span class="cursor-halo cursor-halo-a"></span>
+    <span class="cursor-halo cursor-halo-b"></span>
+    <span class="cursor-orbit"><i></i><i></i></span>
+    <span class="cursor-brackets"></span>
+  </div>
+  <audio id="audio" preload="metadata"></audio>
+
+  <script>
+    const CONFIG = {
+      javaHost: "konomimc.top",
+      javaPort: 25565,
+      bedrockHost: "pe.konomimc.top",
+      bedrockPort: 19002,
+      refreshMs: 30000
+    };
+
+    const I18N = {
+      vi: {
+        "nav.status":"Trạng thái","nav.about":"Giới thiệu","nav.founders":"Founder","nav.bank":"Nạp server","nav.rules":"Luật",
+        "status.checking":"Đang kiểm tra máy chủ…","hero.lead":"Một thế giới EcoSword SMP dành cho cả Java và Bedrock — nơi kinh tế, sinh tồn và cộng đồng cùng tạo nên hành trình riêng của bạn.","hero.copy":"Sao chép IP PC",
+        "join.title":"Tham gia máy chủ","join.open":"Mở cửa từ 15/07/2026","join.note":"Nếu MOTD chứa “bảo trì” — kể cả chữ kiểu cách — website sẽ tự chuyển trạng thái sang Bảo trì.",
+        "status.kicker":"Live status","status.title":"Máy chủ đang hoạt động thế nào?","status.desc":"PC là nguồn trạng thái chính; PE tự đồng bộ Online, Offline hoặc Bảo trì theo PC và MOTD.","status.overall":"Trạng thái tổng","status.refresh":"Làm mới","status.players":"Người chơi","status.version":"Phiên bản","status.apiNote":"PE dùng chung trạng thái với PC để tránh báo lệch. Bảo trì được nhận diện trực tiếp từ MOTD của PC.",
+        "about.kicker":"Konomi experience","about.title":"Một SMP có bản sắc riêng.","about.desc":"KonomiMC hướng tới trải nghiệm đẹp, dễ tham gia và đủ chiều sâu để người chơi gắn bó lâu dài.","about.ecosword":"Chế độ nổi bật kết hợp tiến trình kinh tế với những cuộc đối đầu bằng kiếm.","about.crossTitle":"Cross-play thật sự","about.cross":"Java và Bedrock cùng tham gia một cộng đồng, với địa chỉ riêng dễ nhớ cho từng nền tảng.","about.economyTitle":"Kinh tế có tiến trình","about.economy":"Farm, bán vật phẩm, nâng hệ số và xây dựng tài sản theo cách chơi của riêng bạn.","about.communityTitle":"Cộng đồng trước tiên","about.community":"Luật rõ ràng, hạn chế gian lận và xây dựng môi trường thân thiện cho cả người mới.",
+        "founder.kicker":"Leadership","founder.title":"Hai người đứng sau KonomiMC.","founder.lorleyNote":"Đồng sáng lập, hỗ trợ vận hành cộng đồng và phụ trách liên hệ nạp bằng thẻ.",
+        "bank.kicker":"Official support","bank.title":"Bank Admin & nạp server.","bank.desc":"Kênh hỗ trợ chính thức do Founder Nguyễn Hồng Sơn quản lý. Luôn ghi đúng tên nhân vật để được xử lý chính xác.","bank.heading":"Nạp qua QR chính thức","bank.body":"Quét mã trong ảnh, nhập nội dung chuyển khoản theo mẫu và giữ lại biên lai. Hệ thống nạp mở từ ngày 15/07/2026.","bank.step1":"Quét QR của Bank Admin Nguyễn Hồng Sơn.","bank.step2":"Nội dung: TÊN NGƯỜI CHƠI - KONOMI.","bank.step3":"Gửi biên lai qua Discord nếu giao dịch chưa được xử lý.","bank.warning":"<strong>Lưu ý:</strong> Nạp bằng thẻ liên hệ Hoàng Trần và giá trị quy đổi còn 80% (trừ 20%). Nghiêm cấm mua bán vật phẩm hoặc tiền tệ trong game bằng VNĐ giữa người chơi.","bank.qrNote":"Tên người chơi phải trùng với tài khoản trên server. Không công khai biên lai có thông tin nhạy cảm.",
+        "rules.kicker":"Community standard","rules.title":"Luật Konomi SMP & Discord.","rules.desc":"Tham gia máy chủ đồng nghĩa bạn đã đọc và đồng ý tuân thủ các quy định dưới đây.","rules.minecraft":"Minecraft","rules.penalties":"Xử phạt",
+        "music.kicker":"Konomi waves","music.title":"Playlist nghe trực tuyến.","music.desc":"Nhạc nền anime-inspired tự phát ở âm lượng nhẹ. Nếu trình duyệt chặn autoplay, nhạc bắt đầu ở lần tương tác đầu tiên.","music.now":"Đang phát",
+        "footer.note":"Không phải sản phẩm chính thức của Mojang hoặc Microsoft. Minecraft là nhãn hiệu của chủ sở hữu tương ứng.",
+        online:"Đang hoạt động",offline:"Ngoại tuyến",maintenance:"Đang bảo trì",error:"Không thể kiểm tra",checking:"Đang kiểm tra…",copied:"Đã sao chép",updated:"Cập nhật",playersUnknown:"—"
+      },
+      en: {
+        "nav.status":"Status","nav.about":"About","nav.founders":"Founders","nav.bank":"Top up","nav.rules":"Rules",
+        "status.checking":"Checking server…","hero.lead":"An EcoSword SMP world for both Java and Bedrock — where economy, survival and community shape your own journey.","hero.copy":"Copy PC address",
+        "join.title":"Join the server","join.open":"Open since July 15, 2026","join.note":"When the MOTD contains “maintenance” — even in stylized fonts — the website automatically switches to Maintenance.",
+        "status.kicker":"Live status","status.title":"How is the server doing?","status.desc":"PC is the source of truth; PE mirrors the PC Online, Offline or Maintenance state and MOTD.","status.overall":"Overall status","status.refresh":"Refresh","status.players":"Players","status.version":"Version","status.apiNote":"PE mirrors PC status to prevent mismatched reports. Maintenance is inferred from the PC MOTD.",
+        "about.kicker":"Konomi experience","about.title":"An SMP with its own identity.","about.desc":"KonomiMC aims for a polished, accessible experience with enough depth to keep players invested.","about.ecosword":"The featured mode combines economic progression with sword-focused battles.","about.crossTitle":"True cross-play","about.cross":"Java and Bedrock players share one community, with a memorable address for each platform.","about.economyTitle":"Progressive economy","about.economy":"Farm, sell items, unlock multipliers and build wealth in your own way.","about.communityTitle":"Community first","about.community":"Clear rules, strong anti-cheat standards and a welcoming environment for new players.",
+        "founder.kicker":"Leadership","founder.title":"The two people behind KonomiMC.","founder.lorleyNote":"Co-founder supporting community operations and card top-up contacts.",
+        "bank.kicker":"Official support","bank.title":"Bank Admin & server top-up.","bank.desc":"The official channel managed by Founder Nguyễn Hồng Sơn. Always include the exact in-game name for accurate processing.","bank.heading":"Official QR top-up","bank.body":"Scan the QR image, use the required transfer note and keep your receipt. Top-up service opened on July 15, 2026.","bank.step1":"Scan Bank Admin Nguyễn Hồng Sơn’s QR.","bank.step2":"Transfer note: PLAYER NAME - KONOMI.","bank.step3":"Send the receipt on Discord if the transaction is not processed.","bank.warning":"<strong>Notice:</strong> For card top-ups, contact Hoàng Trần. Converted value is 80% (20% fee). Real-money trading of in-game items or currency between players is prohibited.","bank.qrNote":"Your player name must match your server account. Never publish receipts containing sensitive information.",
+        "rules.kicker":"Community standard","rules.title":"Konomi SMP & Discord rules.","rules.desc":"By joining, you confirm that you have read and agreed to the rules below.","rules.minecraft":"Minecraft","rules.penalties":"Penalties",
+        "music.kicker":"Konomi waves","music.title":"Online listening playlist.","music.desc":"Anime-inspired background music attempts low-volume autoplay. If blocked, it starts on the first interaction.","music.now":"Now playing",
+        "footer.note":"Not an official Mojang or Microsoft product. Minecraft is a trademark of its respective owners.",
+        online:"Online",offline:"Offline",maintenance:"Maintenance",error:"Unable to check",checking:"Checking…",copied:"Copied",updated:"Updated",playersUnknown:"—"
+      }
+    };
+
+    const RULES = {
+      vi: {
+        minecraft: [
+          ["bad","Chống hack / cheat","Không dùng macro, script, auto clicker hoặc mod thay đổi cơ chế click, craft và hành vi hợp lệ của game."],
+          ["bad","Movement mods","Cấm Fly, Speed, Jesus, Spider và mọi mod thay đổi cách di chuyển hợp lệ."],
+          ["bad","Hacked clients","Cấm Wurst, Meteor, Aristois và mọi client đóng gói tính năng gian lận."],
+          ["bad","Giao dịch VNĐ","Không mua bán vật phẩm, tiền hoặc lợi thế trong game bằng tiền Việt Nam giữa người chơi."],
+          ["good","Chơi công bằng","Báo lỗi, exploit hoặc hành vi đáng ngờ cho đội ngũ quản trị thay vì lợi dụng."],
+          ["good","Tôn trọng máy chủ","Không xây lag machine, phá hoại có chủ đích hoặc gây ảnh hưởng trải nghiệm cộng đồng."]
+        ],
+        discord: [
+          ["good","Tôn trọng mọi người","Không phân biệt giới tính, tôn giáo, vùng miền hoặc độ tuổi; dùng ngôn ngữ lịch sự."],
+          ["good","Đúng kênh, đúng mục đích","Dùng đúng kênh chat, voice, hỗ trợ; đọc thông báo và hướng dẫn trước khi hỏi."],
+          ["good","Xây dựng cộng đồng","Góp ý có tính xây dựng, hỗ trợ thành viên mới và báo cáo vi phạm cho quản trị viên."],
+          ["good","Hồ sơ phù hợp","Tên và ảnh đại diện không phản cảm, gây hiểu lầm hoặc giả mạo người khác."],
+          ["bad","Nội dung nghiêm cấm","Không gửi nội dung 18+, chính trị, tôn giáo gây tranh cãi hoặc nội dung phản cảm."],
+          ["bad","Spam và quảng cáo","Không spam tin nhắn, link, emoji, @everyone/@here; không quảng cáo server hoặc bán hàng khi chưa được phép."],
+          ["bad","Toxic và gây war","Không chửi tục, body shaming, phân biệt vùng miền, quấy rối hoặc cố ý kích động tranh cãi."],
+          ["good","Tôn trọng đội ngũ","Founder và admin duy trì trật tự; trao đổi văn minh thay vì công kích cá nhân."]
+        ],
+        penalties: [
+          ["Username hoặc avatar không phù hợp","Yêu cầu đổi; tái phạm sẽ xử lý nặng hơn.","Mute 10–30 phút"],
+          ["Toxic, phân biệt vùng miền, xúc phạm","Phát ngôn thiếu văn minh hoặc công kích cá nhân.","Mute 1 ngày"],
+          ["Quấy rối server, cố ý gây war","Lặp lại hành vi gây rối hoặc kích động cộng đồng.","Mute 1–2 ngày"],
+          ["Dùng cheat / exploit","Gian lận, client hack, khai thác lỗi hoặc công cụ tự động trái phép.","Mute/Ban 1 tuần"],
+          ["Giao dịch bằng VNĐ","Mua bán vật phẩm hoặc tiền tệ trong game bằng tiền thật giữa người chơi.","Mute 5 ngày+"]
+        ]
+      },
+      en: {
+        minecraft: [
+          ["bad","No hacks or cheats","Macros, scripts, auto clickers and mods that alter legitimate clicking, crafting or gameplay are prohibited."],
+          ["bad","Movement mods","Fly, Speed, Jesus, Spider and all illegitimate movement modifications are prohibited."],
+          ["bad","Hacked clients","Wurst, Meteor, Aristois and any client bundled with cheating features are prohibited."],
+          ["bad","No real-money trading","Players may not trade in-game items, currency or advantages for Vietnamese currency."],
+          ["good","Play fairly","Report bugs, exploits and suspicious behavior instead of abusing them."],
+          ["good","Respect the server","Do not build lag machines, intentionally grief or damage the community experience."]
+        ],
+        discord: [
+          ["good","Respect everyone","No discrimination by gender, religion, region or age; communicate politely."],
+          ["good","Use the right channels","Use chat, voice and support channels correctly; read notices and guides before asking."],
+          ["good","Build the community","Give constructive feedback, help new members and report violations to staff."],
+          ["good","Appropriate profile","Names and avatars must not be offensive, misleading or impersonating others."],
+          ["bad","Prohibited content","No 18+ content, divisive political or religious content, or other offensive material."],
+          ["bad","Spam and advertising","Do not spam messages, links, emoji or mentions; unauthorized advertising and selling are prohibited."],
+          ["bad","Toxic behavior","No insults, body shaming, regional discrimination, harassment or deliberate drama."],
+          ["good","Respect staff","Founders and admins maintain order; communicate respectfully instead of attacking people."]
+        ],
+        penalties: [
+          ["Inappropriate username or avatar","Change request; repeated violations receive stronger action.","Mute 10–30 min"],
+          ["Toxic or discriminatory speech","Uncivil language or personal attacks.","Mute 1 day"],
+          ["Harassment or deliberate drama","Repeated disruption or conflict baiting.","Mute 1–2 days"],
+          ["Cheats or exploits","Hacked clients, abuse of bugs or unauthorized automation.","Mute/Ban 1 week"],
+          ["Real-money trading","Trading in-game items or currency for real money between players.","Mute 5 days+"]
+        ]
+      }
+    };
+
+    const TRACKS = [
+      { title: "Konomi Starline", artist: "Konomi Original · Anime Future Bass", url: "audio/konomi-starline.mp3" },
+      { title: "Kawaii Raid", artist: "Konomi Original · Playful Battle Theme", url: "audio/kawaii-raid.mp3" },
+      { title: "Blue Katana", artist: "Konomi Original · Swordwave", url: "audio/blue-katana.mp3" }
+    ];
+
+    let language = "vi";
+    let activeRuleTab = "minecraft";
+    let refreshTimer;
+    let countdownTimer;
+    let nextRefresh = Date.now() + CONFIG.refreshMs;
+
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+    const t = key => I18N[language][key] ?? key;
+
+    async function detectInitialLanguage() {
+      const manual = localStorage.getItem("konomi-language-manual");
+      if (manual === "vi" || manual === "en") return manual;
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 1800);
+      try {
+        const response = await fetch("/api/locale", { cache: "no-store", signal: controller.signal });
+        if (response.ok) {
+          const data = await response.json();
+          if (data?.language === "vi" || data?.language === "en") return data.language;
+        }
+      } catch (_) {
+        try {
+          const trace = await fetch("/cdn-cgi/trace", { cache: "no-store" }).then(r => r.ok ? r.text() : "");
+          const country = trace.match(/^loc=([A-Z]{2})$/m)?.[1];
+          if (country) return country === "VN" ? "vi" : "en";
+        } catch (_) {}
+      } finally {
+        clearTimeout(timeout);
+      }
+
+      const browserLanguages = navigator.languages?.length ? navigator.languages : [navigator.language || "en"];
+      return browserLanguages.some(value => String(value).toLowerCase().startsWith("vi")) ? "vi" : "en";
+    }
+
+    function setLanguage(lang, persist = false) {
+      language = lang === "vi" ? "vi" : "en";
+      if (persist) localStorage.setItem("konomi-language-manual", language);
+      document.documentElement.lang = language;
+      const langButton = $("#langButton");
+      langButton.textContent = language.toUpperCase();
+      langButton.title = language === "vi" ? "Tiếng Việt — nhấn để chuyển English" : "English — click to switch Vietnamese";
+      langButton.setAttribute("aria-label", langButton.title);
+      $$('[data-i18n]').forEach(el => { const value = I18N[language][el.dataset.i18n]; if (value !== undefined) el.textContent = value; });
+      $$('[data-i18n-html]').forEach(el => { const value = I18N[language][el.dataset.i18nHtml]; if (value !== undefined) el.innerHTML = value; });
+      renderRules(activeRuleTab);
+    }
+
+    function setTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      localStorage.setItem("konomi-theme", theme);
+      $("meta[name='theme-color']").setAttribute("content", theme === "dark" ? "#071421" : "#f4f9fc");
+      $("#themeIcon").innerHTML = theme === "dark"
+        ? '<path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/>'
+        : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/>';
+      window.dispatchEvent(new CustomEvent("konomi-theme-change", { detail: { theme } }));
+    }
+
+    function showToast(message) {
+      const toast = $("#toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function normalizeMaintenanceText(value) {
+      const replacements = {
+        "ʙ":"b","ᴀ":"a","̉":"","ᴏ":"o","ᴛ":"t","ʀ":"r","ɪ":"i","̀":"","́":"","ᴍ":"m","ᴇ":"e","ɴ":"n","ᴄ":"c","ʜ":"h",
+        "ⓑ":"b","ⓐ":"a","ⓞ":"o","ⓣ":"t","ⓡ":"r","ⓘ":"i","ⓜ":"m","ⓔ":"e","ⓝ":"n","ⓒ":"c","ⓗ":"h"
+      };
+      return String(value || "")
+        .normalize("NFKD")
+        .split("").map(ch => replacements[ch] || ch).join("")
+        .replace(/[đĐ]/g, "d")
+        .replace(/\p{Diacritic}/gu, "")
+        .toLowerCase()
+        .replace(/[@4]/g, "a")
+        .replace(/[0]/g, "o")
+        .replace(/[1!|]/g, "i")
+        .replace(/[3]/g, "e")
+        .replace(/[5$]/g, "s")
+        .replace(/[^a-z0-9]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function isMaintenance(motd) {
+      const value = normalizeMaintenanceText(motd);
+      const compact = value.replace(/\s/g, "");
+      return value.includes("bao tri") || compact.includes("baotri") || value.includes("maintenance") || value.includes("maintainance") || value.includes("server maintain");
+    }
+
+    function motdText(data) {
+      const clean = data?.motd?.clean;
+      if (Array.isArray(clean)) return clean.join("\n");
+      if (typeof clean === "string") return clean;
+      if (typeof data?.motd?.raw === "string") return data.motd.raw;
+      if (Array.isArray(data?.motd?.raw)) return data.motd.raw.join("\n");
+      return "—";
+    }
+
+    function stateFor(data) {
+      if (!data || data.__error) return "error";
+      const motd = motdText(data);
+      if (isMaintenance(motd)) return "maintenance";
+      return data.online ? "online" : "offline";
+    }
+
+    async function fetchJson(url) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 7500);
+      try {
+        const response = await fetch(url, { signal: controller.signal, cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return await response.json();
+      } catch (error) {
+        return { __error: true, message: error.message };
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
+    function renderEdition(prefix, data, fallbackPort) {
+      const state = stateFor(data);
+      const badge = $(`#${prefix}Badge`);
+      badge.className = `state-badge ${state}`;
+      badge.textContent = t(state);
+      $(`#${prefix}Players`).textContent = data?.online ? `${data?.players?.online ?? 0}/${data?.players?.max ?? "?"}` : "—";
+      $(`#${prefix}Version`).textContent = data?.version?.name_clean || data?.version?.name || "—";
+      $(`#${prefix}Port`).textContent = data?.port || fallbackPort;
+      $(`#${prefix}Motd`).textContent = data?.__error ? t("error") : motdText(data);
+      if (prefix === "java" && data?.icon) $("#serverIcon").src = data.icon;
+      return state;
+    }
+
+    function renderOverall(states) {
+      const state = states.includes("maintenance") ? "maintenance" : states.includes("online") ? "online" : states.every(s => s === "offline") ? "offline" : "error";
+      $("#overallState").textContent = t(state);
+      $("#heroStatus").textContent = t(state);
+      $("#heroDot").className = `status-dot ${state}`;
+    }
+
+    async function refreshStatus() {
+      const button = $("#refreshButton");
+      button.disabled = true;
+      const javaUrl = `https://api.mcstatus.io/v2/status/java/${encodeURIComponent(CONFIG.javaHost)}?query=false&timeout=5`;
+      const javaData = await fetchJson(javaUrl);
+      const bedrockData = { ...javaData, port: CONFIG.bedrockPort };
+      const javaState = renderEdition("java", javaData, CONFIG.javaPort);
+      renderEdition("bedrock", bedrockData, CONFIG.bedrockPort);
+      renderOverall([javaState, javaState]);
+      const now = new Date();
+      $("#lastUpdated").textContent = `${t("updated")}: ${now.toLocaleTimeString(language === "vi" ? "vi-VN" : "en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`;
+      try { localStorage.setItem("konomi-status-cache-v5", JSON.stringify({ javaData, bedrockData, time: Date.now() })); } catch {}
+      button.disabled = false;
+      nextRefresh = Date.now() + CONFIG.refreshMs;
+      clearTimeout(refreshTimer);
+      refreshTimer = setTimeout(refreshStatus, CONFIG.refreshMs);
+    }
+
+    function loadStatusCache() {
+      try {
+        const cache = JSON.parse(localStorage.getItem("konomi-status-cache-v5"));
+        if (!cache || Date.now() - cache.time > 10 * 60 * 1000) return;
+        const states = [renderEdition("java", cache.javaData, CONFIG.javaPort), renderEdition("bedrock", cache.bedrockData, CONFIG.bedrockPort)];
+        renderOverall(states);
+      } catch {}
+    }
+
+    function renderRules(tab) {
+      activeRuleTab = tab;
+      $$("[data-rule-tab]").forEach(button => button.classList.toggle("active", button.dataset.ruleTab === tab));
+      const content = $("#rulesContent");
+      const data = RULES[language][tab];
+      if (tab === "penalties") {
+        content.innerHTML = `<div class="penalties">${data.map(([title, desc, time]) => `<div class="penalty"><div><strong>${title}</strong><span>${desc}</span></div><span class="penalty-time">${time}</span></div>`).join("")}</div>`;
+        return;
+      }
+      const title = tab === "minecraft" ? (language === "vi" ? "Luật Minecraft Konomi SMP" : "Konomi SMP Minecraft rules") : (language === "vi" ? "Luật Discord" : "Discord rules");
+      content.innerHTML = `<section class="rule-section"><h3>${title}</h3><ul class="rule-list">${data.map(([type, heading, body]) => `<li class="rule-item ${type}"><span class="rule-mark">${type === "good" ? "✓" : "×"}</span><span><strong>${heading}</strong><br>${body}</span></li>`).join("")}</ul></section>`;
+    }
+
+    function setupMusic() {
+      const audio = $("#audio");
+      const dock = $("#musicDock");
+      const dockState = $("#musicDockState");
+      let current = 0;
+      let userDisabled = localStorage.getItem("konomi-music-disabled") === "1";
+      const playButton = $("#playTrack");
+      const playIcon = $("#playIcon");
+      const disc = $("#disc");
+      audio.volume = 0.22;
+
+      function renderTracks() {
+        $("#trackList").innerHTML = TRACKS.map((track, index) => `<button class="track ${index === current ? "active" : ""}" data-track="${index}" type="button"><span class="track-num">${String(index + 1).padStart(2, "0")}</span><span><strong>${track.title}</strong><small>${track.artist}</small></span><span class="track-duration">BGM</span></button>`).join("");
+        $$('[data-track]').forEach(button => button.addEventListener("click", () => { userDisabled = false; localStorage.removeItem("konomi-music-disabled"); loadTrack(Number(button.dataset.track), true); }));
+      }
+
+      function loadTrack(index, autoplay = false) {
+        current = (index + TRACKS.length) % TRACKS.length;
+        const track = TRACKS[current];
+        audio.src = track.url;
+        $("#trackTitle").textContent = track.title;
+        $("#trackArtist").textContent = track.artist;
+        renderTracks();
+        if (autoplay) attemptPlay();
+      }
+
+      function updatePlayUI() {
+        const playing = !audio.paused;
+        disc.classList.toggle("playing", playing);
+        dock.classList.toggle("playing", playing);
+        if (playing) dock.classList.remove("blocked");
+        dockState.textContent = playing ? "ON" : (dock.classList.contains("blocked") ? "TAP TO START" : "OFF");
+        playIcon.innerHTML = playing ? '<path d="M7 5h4v14H7zm6 0h4v14h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
+      }
+
+      async function attemptPlay() {
+        if (userDisabled) { updatePlayUI(); return false; }
+        try {
+          await audio.play();
+          dock.classList.remove("blocked");
+          updatePlayUI();
+          return true;
+        } catch (_) {
+          dock.classList.add("blocked");
+          updatePlayUI();
+          return false;
+        }
+      }
+
+      function formatTime(value) {
+        if (!Number.isFinite(value)) return "0:00";
+        const minutes = Math.floor(value / 60);
+        return `${minutes}:${String(Math.floor(value % 60)).padStart(2, "0")}`;
+      }
+
+      function toggleMusic() {
+        if (audio.paused) {
+          userDisabled = false;
+          localStorage.removeItem("konomi-music-disabled");
+          attemptPlay();
+        } else {
+          userDisabled = true;
+          localStorage.setItem("konomi-music-disabled", "1");
+          audio.pause();
+        }
+      }
+
+      playButton.addEventListener("click", toggleMusic);
+      dock.addEventListener("click", toggleMusic);
+      $("#prevTrack").addEventListener("click", () => { userDisabled = false; localStorage.removeItem("konomi-music-disabled"); loadTrack(current - 1, true); });
+      $("#nextTrack").addEventListener("click", () => { userDisabled = false; localStorage.removeItem("konomi-music-disabled"); loadTrack(current + 1, true); });
+      audio.addEventListener("play", updatePlayUI);
+      audio.addEventListener("pause", updatePlayUI);
+      audio.addEventListener("ended", () => loadTrack(current + 1, true));
+      audio.addEventListener("timeupdate", () => {
+        const percent = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+        $("#progressBar").style.width = `${percent}%`;
+        $("#timeLabel").textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+      });
+      $("#progress").addEventListener("click", event => {
+        if (!audio.duration) return;
+        const rect = event.currentTarget.getBoundingClientRect();
+        audio.currentTime = ((event.clientX - rect.left) / rect.width) * audio.duration;
+      });
+
+      loadTrack(0, false);
+      updatePlayUI();
+      if (!userDisabled) {
+        attemptPlay();
+        const unlock = event => {
+          if (event?.target?.closest?.("#musicDock, #playTrack, #prevTrack, #nextTrack, [data-track], #progress")) return;
+          if (audio.paused && !userDisabled) attemptPlay();
+          window.removeEventListener("pointerdown", unlock);
+          window.removeEventListener("keydown", unlock);
+          window.removeEventListener("touchstart", unlock);
+        };
+        window.addEventListener("pointerdown", unlock, { passive: true });
+        window.addEventListener("keydown", unlock);
+        window.addEventListener("touchstart", unlock, { passive: true });
+      }
+    }
+
+    function setupNeonCursor() {
+      const canvas = $("#cursorCanvas");
+      const cursor = $("#neonCursor");
+      const finePointer = matchMedia("(pointer: fine)").matches;
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!canvas || !cursor || !finePointer || reducedMotion) return;
+
+      const context = canvas.getContext("2d", { alpha: true, desynchronized: true });
+      if (!context) return;
+
+      document.documentElement.classList.add("cursor-enhanced");
+
+      const pointer = { x: innerWidth / 2, y: innerHeight / 2, lastX: innerWidth / 2, lastY: innerHeight / 2, visible: false, speed: 0 };
+      const trail = Array.from({ length: 25 }, () => ({ x: pointer.x, y: pointer.y }));
+      const particles = [];
+      const pulses = [];
+      let dpr = 1;
+      let lastMoveTime = performance.now();
+      let lastParticleTime = 0;
+      let running = true;
+      let frameId = 0;
+
+      const palette = () => document.documentElement.dataset.theme === "light"
+        ? { cyan: [0, 145, 199], blue: [44, 84, 214], white: [235, 253, 255] }
+        : { cyan: [70, 220, 255], blue: [80, 105, 255], white: [226, 252, 255] };
+
+      function resizeCanvas() {
+        dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        canvas.width = Math.max(1, Math.floor(innerWidth * dpr));
+        canvas.height = Math.max(1, Math.floor(innerHeight * dpr));
+        canvas.style.width = `${innerWidth}px`;
+        canvas.style.height = `${innerHeight}px`;
+        context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function rgba(rgb, alpha) {
+        return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha})`;
+      }
+
+      function addParticle(x, y, vx, vy, life = 1, size = 2.2, diamond = false) {
+        if (particles.length >= 44) particles.shift();
+        particles.push({ x, y, vx, vy, life, maxLife: life, size, rotation: Math.random() * Math.PI, spin: (Math.random() - .5) * .2, diamond });
+      }
+
+      function emitMovementParticles(dx, dy, speed, now) {
+        if (speed < 9 || now - lastParticleTime < 24) return;
+        lastParticleTime = now;
+        const length = Math.hypot(dx, dy) || 1;
+        const nx = -dy / length;
+        const ny = dx / length;
+        const count = speed > 28 ? 2 : 1;
+        for (let index = 0; index < count; index += 1) {
+          const side = index % 2 ? -1 : 1;
+          const spread = 4 + Math.random() * 6;
+          addParticle(
+            pointer.x + nx * spread * side,
+            pointer.y + ny * spread * side,
+            -dx * .055 + nx * (Math.random() - .5) * 1.5,
+            -dy * .055 + ny * (Math.random() - .5) * 1.5,
+            .58 + Math.random() * .34,
+            1.2 + Math.random() * 1.8,
+            Math.random() > .45
+          );
+        }
+      }
+
+      function emitClickPulse() {
+        pulses.push({ x: pointer.x, y: pointer.y, radius: 7, alpha: .92, width: 2.1 });
+        if (pulses.length > 6) pulses.shift();
+        for (let index = 0; index < 10; index += 1) {
+          const angle = (Math.PI * 2 * index) / 10 + Math.random() * .18;
+          const velocity = 1.6 + Math.random() * 2.8;
+          addParticle(pointer.x, pointer.y, Math.cos(angle) * velocity, Math.sin(angle) * velocity, .9, 1.7 + Math.random() * 2.4, true);
+        }
+      }
+
+      function updateTrail() {
+        trail[0].x += (pointer.x - trail[0].x) * .46;
+        trail[0].y += (pointer.y - trail[0].y) * .46;
+        for (let index = 1; index < trail.length; index += 1) {
+          const follow = .34 - Math.min(index * .006, .11);
+          trail[index].x += (trail[index - 1].x - trail[index].x) * follow;
+          trail[index].y += (trail[index - 1].y - trail[index].y) * follow;
+        }
+      }
+
+      function offsetPoint(index, strand, time) {
+        const current = trail[index];
+        const previous = trail[Math.max(0, index - 1)];
+        const next = trail[Math.min(trail.length - 1, index + 1)];
+        const dx = next.x - previous.x;
+        const dy = next.y - previous.y;
+        const length = Math.hypot(dx, dy) || 1;
+        const normalX = -dy / length;
+        const normalY = dx / length;
+        const fade = 1 - index / (trail.length - 1);
+        const wave = Math.sin(time * .0065 - index * .62 + strand * Math.PI) * (2.6 + pointer.speed * .085) * fade;
+        const separation = strand === 0 ? -2.4 : 2.4;
+        return { x: current.x + normalX * (separation + wave), y: current.y + normalY * (separation + wave) };
+      }
+
+      function drawRibbon(time, colors) {
+        context.save();
+        context.globalCompositeOperation = "lighter";
+        context.lineCap = "round";
+        context.lineJoin = "round";
+
+        for (let index = trail.length - 2; index >= 0; index -= 1) {
+          const progress = 1 - index / (trail.length - 1);
+          const alpha = Math.pow(progress, 1.65) * .24;
+          if (alpha < .006) continue;
+          const p1 = trail[index + 1];
+          const p2 = trail[index];
+          context.beginPath();
+          context.moveTo(p1.x, p1.y);
+          context.lineTo(p2.x, p2.y);
+          context.lineWidth = .8 + progress * (4.6 + Math.min(pointer.speed * .05, 2.6));
+          context.strokeStyle = rgba(colors.cyan, alpha);
+          context.shadowBlur = 13 + progress * 13;
+          context.shadowColor = rgba(colors.cyan, .34);
+          context.stroke();
+        }
+
+        for (let strand = 0; strand < 2; strand += 1) {
+          for (let index = trail.length - 2; index >= 0; index -= 1) {
+            const progress = 1 - index / (trail.length - 1);
+            const alpha = Math.pow(progress, 1.45) * .36;
+            if (alpha < .008) continue;
+            const p1 = offsetPoint(index + 1, strand, time);
+            const p2 = offsetPoint(index, strand, time);
+            context.beginPath();
+            context.moveTo(p1.x, p1.y);
+            context.lineTo(p2.x, p2.y);
+            context.lineWidth = .55 + progress * 1.35;
+            context.strokeStyle = rgba(strand === 0 ? colors.cyan : colors.blue, alpha);
+            context.shadowBlur = 8;
+            context.shadowColor = rgba(strand === 0 ? colors.cyan : colors.blue, .34);
+            context.stroke();
+          }
+        }
+
+        // Small moving energy fins make the trail feel like a liquid data stream.
+        for (let index = 4; index < trail.length - 2; index += 4) {
+          const progress = 1 - index / (trail.length - 1);
+          const point = trail[index];
+          const next = trail[index - 1];
+          const angle = Math.atan2(next.y - point.y, next.x - point.x) + Math.PI / 2;
+          const pulse = .45 + .55 * Math.sin(time * .008 - index);
+          const length = (2 + 5 * progress) * pulse;
+          context.beginPath();
+          context.moveTo(point.x - Math.cos(angle) * length, point.y - Math.sin(angle) * length);
+          context.lineTo(point.x + Math.cos(angle) * length, point.y + Math.sin(angle) * length);
+          context.lineWidth = .7;
+          context.strokeStyle = rgba(colors.white, .08 + progress * .22);
+          context.shadowBlur = 5;
+          context.stroke();
+        }
+        context.restore();
+      }
+
+      function drawParticles(colors) {
+        context.save();
+        context.globalCompositeOperation = "lighter";
+        for (let index = particles.length - 1; index >= 0; index -= 1) {
+          const particle = particles[index];
+          particle.x += particle.vx;
+          particle.y += particle.vy;
+          particle.vx *= .965;
+          particle.vy *= .965;
+          particle.life -= .025;
+          particle.rotation += particle.spin;
+          if (particle.life <= 0) {
+            particles.splice(index, 1);
+            continue;
+          }
+          const alpha = Math.pow(particle.life / particle.maxLife, 1.4) * .7;
+          context.save();
+          context.translate(particle.x, particle.y);
+          context.rotate(particle.rotation);
+          context.fillStyle = rgba(index % 2 ? colors.blue : colors.cyan, alpha);
+          context.shadowBlur = 10;
+          context.shadowColor = rgba(colors.cyan, alpha);
+          if (particle.diamond) {
+            context.rotate(Math.PI / 4);
+            context.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+          } else {
+            context.beginPath();
+            context.arc(0, 0, particle.size / 2, 0, Math.PI * 2);
+            context.fill();
+          }
+          context.restore();
+        }
+        context.restore();
+      }
+
+      function drawPulses(colors) {
+        context.save();
+        context.globalCompositeOperation = "lighter";
+        for (let index = pulses.length - 1; index >= 0; index -= 1) {
+          const pulse = pulses[index];
+          pulse.radius += 2.35;
+          pulse.alpha *= .91;
+          pulse.width *= .985;
+          if (pulse.alpha < .025) {
+            pulses.splice(index, 1);
+            continue;
+          }
+          context.beginPath();
+          context.arc(pulse.x, pulse.y, pulse.radius, 0, Math.PI * 2);
+          context.lineWidth = pulse.width;
+          context.strokeStyle = rgba(colors.cyan, pulse.alpha);
+          context.shadowBlur = 13;
+          context.shadowColor = rgba(colors.blue, pulse.alpha * .85);
+          context.stroke();
+        }
+        context.restore();
+      }
+
+      function animate(time) {
+        frameId = requestAnimationFrame(animate);
+        if (!running) return;
+        context.clearRect(0, 0, innerWidth, innerHeight);
+        if (!pointer.visible) return;
+
+        updateTrail();
+        const colors = palette();
+        drawRibbon(time, colors);
+        drawParticles(colors);
+        drawPulses(colors);
+
+        const scale = document.body.classList.contains("cursor-down") ? .76 : document.body.classList.contains("cursor-hover") ? 1.18 : 1;
+        cursor.style.setProperty("--cursor-scale", scale.toFixed(2));
+        cursor.style.setProperty("--cursor-speed", Math.min(pointer.speed / 28, 1).toFixed(3));
+        cursor.style.transform = `translate3d(${pointer.x}px, ${pointer.y}px, 0) translate(-50%, -50%) scale(${scale})`;
+      }
+
+      window.addEventListener("pointermove", event => {
+        const now = performance.now();
+        const dt = Math.max(8, now - lastMoveTime);
+        const dx = event.clientX - pointer.lastX;
+        const dy = event.clientY - pointer.lastY;
+        const rawSpeed = Math.hypot(dx, dy) * (16.67 / dt);
+        pointer.speed += (rawSpeed - pointer.speed) * .34;
+        pointer.x = event.clientX;
+        pointer.y = event.clientY;
+        pointer.lastX = pointer.x;
+        pointer.lastY = pointer.y;
+        lastMoveTime = now;
+        pointer.visible = true;
+        cursor.classList.add("visible");
+        document.body.classList.toggle("cursor-hover", Boolean(event.target.closest('a, button, input, textarea, select, [role="button"], .track, .feature-card, .copy-action')));
+        emitMovementParticles(dx, dy, pointer.speed, now);
+      }, { passive: true });
+
+      window.addEventListener("pointerdown", () => {
+        if (!pointer.visible) return;
+        document.body.classList.add("cursor-down");
+        emitClickPulse();
+      }, { passive: true });
+      window.addEventListener("pointerup", () => document.body.classList.remove("cursor-down"), { passive: true });
+      document.documentElement.addEventListener("mouseleave", () => {
+        pointer.visible = false;
+        cursor.classList.remove("visible");
+        document.body.classList.remove("cursor-hover", "cursor-down");
+      });
+      window.addEventListener("blur", () => {
+        pointer.visible = false;
+        cursor.classList.remove("visible");
+        document.body.classList.remove("cursor-hover", "cursor-down");
+      });
+      document.addEventListener("visibilitychange", () => { running = !document.hidden; });
+      window.addEventListener("resize", resizeCanvas, { passive: true });
+      resizeCanvas();
+      animate(performance.now());
+
+      window.addEventListener("pagehide", () => cancelAnimationFrame(frameId), { once: true });
+    }
+
+    function setupInteractions() {
+      $("#langButton").addEventListener("click", () => setLanguage(language === "vi" ? "en" : "vi", true));
+      $("#themeButton").addEventListener("click", () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark"));
+      $("#menuButton").addEventListener("click", () => $("#nav").classList.toggle("open"));
+      $$("#nav a").forEach(link => link.addEventListener("click", () => $("#nav").classList.remove("open")));
+      $$(".copy-action").forEach(button => button.addEventListener("click", async () => {
+        const value = button.dataset.copy;
+        try { await navigator.clipboard.writeText(value); } catch {
+          const input = document.createElement("textarea"); input.value = value; document.body.append(input); input.select(); document.execCommand("copy"); input.remove();
+        }
+        showToast(`${t("copied")}: ${value}`);
+      }));
+      $$("[data-rule-tab]").forEach(button => button.addEventListener("click", () => renderRules(button.dataset.ruleTab)));
+      $("#refreshButton").addEventListener("click", refreshStatus);
+
+      const header = $("#siteHeader");
+      const sections = $$('main section[id]');
+      window.addEventListener("scroll", () => {
+        header.classList.toggle("scrolled", window.scrollY > 16);
+        const y = window.scrollY + 110;
+        let active = "";
+        sections.forEach(section => { if (section.offsetTop <= y) active = section.id; });
+        $$("#nav a").forEach(link => link.classList.toggle("active", link.getAttribute("href") === `#${active}`));
+      }, { passive: true });
+
+      const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); } }), { threshold: .12 });
+      $$(".reveal").forEach(element => observer.observe(element));
+
+      setupNeonCursor();
+    }
+
+    async function initializeKonomi() {
+      const preferredTheme = localStorage.getItem("konomi-theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      setTheme(preferredTheme);
+      const detectedLanguage = await detectInitialLanguage();
+      setLanguage(detectedLanguage, false);
+      renderRules("minecraft");
+      setupMusic();
+      setupInteractions();
+      loadStatusCache();
+      refreshStatus();
+    }
+
+    initializeKonomi();
+  </script>
+</body>
+</html>
