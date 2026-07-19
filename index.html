@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#071421">
-  <meta name="konomi-build" content="5.0.0">
+  <meta name="konomi-build" content="5.1.0-performance">
   <meta name="description" content="KonomiMC — EcoSword SMP cross-play dành cho Minecraft Java và Bedrock.">
   <meta property="og:title" content="KonomiMC — EcoSword SMP">
   <meta property="og:description" content="Theo dõi trạng thái KonomiMC và tham gia trên PC hoặc PE.">
@@ -298,6 +298,10 @@
     .step { counter-increment: step; display: flex; align-items: center; gap: 11px; padding: 12px 13px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-soft); font-size: .73rem; }
     .step::before { content: counter(step); width: 26px; height: 26px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 8px; color: #00131b; background: #68dcff; font-weight: 900; }
     .warning { padding: 14px; border: 1px solid color-mix(in srgb, var(--warn) 25%, transparent); border-radius: 14px; color: color-mix(in srgb, var(--warn) 74%, var(--text)); background: color-mix(in srgb, var(--warn) 7%, transparent); font-size: .7rem; line-height: 1.65; }
+    .exchange-rate { margin: 18px 0 10px; padding: 14px 16px; display: grid; gap: 4px; border: 1px solid var(--line-strong); border-radius: 14px; background: linear-gradient(135deg, var(--accent-soft), var(--surface-soft)); }
+    .exchange-rate span { color: var(--accent); font-size: .58rem; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
+    .exchange-rate strong { font: 800 1.15rem/1.35 "Manrope", sans-serif; letter-spacing: -.025em; }
+    .exchange-rate small { color: var(--muted); font-size: .65rem; line-height: 1.55; }
     .contact-line { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
     .contact-chip { padding: 8px 10px; border: 1px solid var(--line); border-radius: 11px; color: var(--muted); background: var(--surface-soft); font-size: .66rem; }
     .bank-card { align-self: start; position: sticky; top: calc(var(--header-h) + 22px); padding: 14px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface-soft); }
@@ -963,10 +967,12 @@
       opacity: 0;
       border-radius: 50%;
       transform: translate3d(-120px, -120px, 0) translate(-50%, -50%) scale(var(--cursor-scale));
-      will-change: transform, opacity;
-      transition: opacity .16s ease, filter .18s ease;
-      filter: drop-shadow(0 0 calc(8px + var(--cursor-speed) * 11px) rgba(64, 211, 255, .58));
-      mix-blend-mode: screen;
+      will-change: transform;
+      contain: layout paint style;
+      backface-visibility: hidden;
+      transition: opacity .16s ease;
+      filter: none;
+      mix-blend-mode: normal;
     }
     .neon-cursor.visible { opacity: 1; }
     .cursor-core,
@@ -1050,11 +1056,11 @@
       opacity: .72;
       transform: translate(-50%, -50%) rotate(8deg);
     }
-    body.cursor-down .neon-cursor { --cursor-scale: .76; filter: drop-shadow(0 0 18px rgba(126, 235, 255, .95)); }
+    body.cursor-down .neon-cursor { --cursor-scale: .76; }
     body.cursor-down .cursor-halo-b { animation-duration: .42s; }
     html[data-theme="light"] .neon-cursor {
       mix-blend-mode: normal;
-      filter: drop-shadow(0 0 calc(6px + var(--cursor-speed) * 7px) rgba(0, 130, 190, .32));
+      filter: none;
     }
     html[data-theme="light"] .cursor-core {
       background: radial-gradient(circle at 35% 30%, #fff 0 14%, #88e7ff 35%, #008ec8 70%, #244dca 100%);
@@ -1076,13 +1082,21 @@
       html.cursor-enhanced [role="button"],
       html.cursor-enhanced .track,
       html.cursor-enhanced .feature-card { cursor: none !important; }
-      html.cursor-enhanced .cursor-canvas,
       html.cursor-enhanced .neon-cursor { display: block; }
     }
     @media (pointer: coarse), (prefers-reduced-motion: reduce) {
       .cursor-canvas,
       .neon-cursor { display: none !important; }
     }
+
+    /* Performance guardrails: preserve the glass look without repainting large blurred layers on every scroll frame. */
+    .panel { -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .site-header { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+    .join-card { -webkit-backdrop-filter: blur(9px) saturate(115%); backdrop-filter: blur(9px) saturate(115%); }
+    .hero-signal { -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); }
+    .music-dock { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+    .ticker-track, .disc.playing, .music-dock::before { will-change: transform; }
+    body.tab-hidden *, body.tab-hidden *::before, body.tab-hidden *::after { animation-play-state: paused !important; }
 
   </style>
 </head>
@@ -1213,11 +1227,11 @@
         <div class="section-heading reveal"><div><span class="eyebrow" data-i18n="founder.kicker">Leadership</span><h2 class="section-title" data-i18n="founder.title">Hai người đứng sau KonomiMC.</h2></div><p class="section-copy">Founder chịu trách nhiệm phát triển, vận hành và duy trì tiêu chuẩn cộng đồng của máy chủ.</p></div>
         <div class="founder-grid">
           <article class="founder-card founder-primary reveal">
-            <img class="founder-backdrop" src="images/banner.gif?v=5" alt="" aria-hidden="true" decoding="async">
-            <div class="founder-profile"><img class="avatar" src="images/sonavatar.gif?v=5" alt="EmaVietNam" decoding="async"><div class="founder-meta"><span class="role">Founder · Bank Admin</span><h3>EmaVietNam</h3><p>Nguyễn Hồng Sơn</p><div class="founder-chips"><span class="founder-chip">Server Development</span><span class="founder-chip">Economy & Systems</span><span class="founder-chip">4h3svn@gmail.com</span></div></div></div>
+            <img class="founder-backdrop" src="images/banner.gif?v=5" alt="" aria-hidden="true" loading="lazy" decoding="async">
+            <div class="founder-profile"><img class="avatar" src="images/sonavatar.gif?v=5" alt="EmaVietNam" loading="lazy" decoding="async"><div class="founder-meta"><span class="role">Founder · Bank Admin</span><h3>EmaVietNam</h3><p>Nguyễn Hồng Sơn</p><div class="founder-chips"><span class="founder-chip">Server Development</span><span class="founder-chip">Economy & Systems</span><span class="founder-chip">4h3svn@gmail.com</span></div></div></div>
           </article>
           <article class="founder-card cofounder reveal">
-            <div><img class="avatar" src="images/lorley.png" alt="Lorley"><h3>Lorley</h3><p>Hoàng Trần · Co-Founder</p></div>
+            <div><img class="avatar" src="images/lorley.png" alt="Lorley" loading="lazy" decoding="async"><h3>Lorley</h3><p>Hoàng Trần · Co-Founder</p></div>
             <div class="cofounder-note" data-i18n="founder.lorleyNote">Đồng sáng lập, hỗ trợ vận hành cộng đồng và phụ trách liên hệ nạp bằng thẻ.</div>
           </article>
         </div>
@@ -1228,8 +1242,19 @@
       <div class="container">
         <div class="section-heading reveal"><div><span class="eyebrow" data-i18n="bank.kicker">Official support</span><h2 class="section-title" data-i18n="bank.title">Bank Admin & nạp server.</h2></div><p class="section-copy" data-i18n="bank.desc">Kênh hỗ trợ chính thức do Founder Nguyễn Hồng Sơn quản lý. Luôn ghi đúng tên nhân vật để được xử lý chính xác.</p></div>
         <div class="panel bank-grid reveal">
-          <div class="bank-copy"><h3 data-i18n="bank.heading">Nạp qua QR chính thức</h3><p data-i18n="bank.body">Quét mã trong ảnh, nhập nội dung chuyển khoản theo mẫu và giữ lại biên lai. Hệ thống nạp mở từ ngày 15/07/2026.</p><div class="steps"><div class="step" data-i18n="bank.step1">Quét QR của Bank Admin Nguyễn Hồng Sơn.</div><div class="step" data-i18n="bank.step2">Nội dung: TÊN NGƯỜI CHƠI - KONOMI.</div><div class="step" data-i18n="bank.step3">Gửi biên lai qua Discord nếu giao dịch chưa được xử lý.</div></div><div class="warning" data-i18n-html="bank.warning"><strong>Lưu ý:</strong> Nạp bằng thẻ liên hệ Hoàng Trần và giá trị quy đổi còn 80% (trừ 20%). Nghiêm cấm mua bán vật phẩm hoặc tiền tệ trong game bằng VNĐ giữa người chơi.</div><div class="contact-line"><a class="contact-chip" href="mailto:4h3svn@gmail.com">4h3svn@gmail.com</a><a class="contact-chip" href="https://discord.gg/8pRctVuqub" target="_blank" rel="noopener">Discord Support</a></div></div>
-          <aside class="bank-card"><div class="bank-qr-stage"><img src="images/bank.png?v=5" alt="KonomiMC Bank Admin QR"></div><h4>Bank Admin · EmaVietNam</h4><p data-i18n="bank.qrNote">Tên người chơi phải trùng với tài khoản trên server. Không công khai biên lai có thông tin nhạy cảm.</p></aside>
+          <div class="bank-copy">
+            <h3 data-i18n="bank.heading">Nạp qua QR chính thức</h3>
+            <p data-i18n="bank.body">Quét mã trong ảnh, nhập nội dung chuyển khoản theo mẫu và giữ lại biên lai. Hệ thống nạp mở từ ngày 15/07/2026.</p>
+            <div class="steps">
+              <div class="step" data-i18n="bank.step1">Quét QR của Bank Admin Nguyễn Hồng Sơn.</div>
+              <div class="step" data-i18n="bank.step2">Nội dung: TÊN NGƯỜI CHƠI - KONOMI.</div>
+              <div class="step" data-i18n="bank.step3">Gửi biên lai qua Discord nếu giao dịch chưa được xử lý.</div>
+            </div>
+            <div class="exchange-rate" data-i18n-html="bank.rate"><span>Tỷ lệ quy đổi cơ bản</span><strong>1 Point = 1.000 VNĐ</strong><small>Chuyển khoản ngân hàng được thưởng thêm 20% Point.</small></div>
+            <div class="warning" data-i18n-html="bank.warning"><strong>Lưu ý:</strong> Nạp bằng thẻ liên hệ Hoàng Trần, được quy đổi 100% mệnh giá nhưng không áp dụng bonus 20% như chuyển khoản ngân hàng. Nghiêm cấm mua bán vật phẩm hoặc tiền tệ trong game bằng VNĐ giữa người chơi.</div>
+            <div class="contact-line"><a class="contact-chip" href="mailto:4h3svn@gmail.com">4h3svn@gmail.com</a><a class="contact-chip" href="https://discord.gg/8pRctVuqub" target="_blank" rel="noopener">Discord Support</a></div>
+          </div>
+          <aside class="bank-card"><div class="bank-qr-stage"><img src="images/bank.png?v=5" alt="KonomiMC Bank Admin QR" loading="lazy" decoding="async"></div><h4>Bank Admin · EmaVietNam</h4><p data-i18n="bank.qrNote">Tên người chơi phải trùng với tài khoản trên server. Không công khai biên lai có thông tin nhạy cảm.</p></aside>
         </div>
       </div>
     </section>
@@ -1289,7 +1314,7 @@
         "status.kicker":"Live status","status.title":"Máy chủ đang hoạt động thế nào?","status.desc":"PC là nguồn trạng thái chính; PE tự đồng bộ Online, Offline hoặc Bảo trì theo PC và MOTD.","status.overall":"Trạng thái tổng","status.refresh":"Làm mới","status.players":"Người chơi","status.version":"Phiên bản","status.apiNote":"PE dùng chung trạng thái với PC để tránh báo lệch. Bảo trì được nhận diện trực tiếp từ MOTD của PC.",
         "about.kicker":"Konomi experience","about.title":"Một SMP có bản sắc riêng.","about.desc":"KonomiMC hướng tới trải nghiệm đẹp, dễ tham gia và đủ chiều sâu để người chơi gắn bó lâu dài.","about.ecosword":"Chế độ nổi bật kết hợp tiến trình kinh tế với những cuộc đối đầu bằng kiếm.","about.crossTitle":"Cross-play thật sự","about.cross":"Java và Bedrock cùng tham gia một cộng đồng, với địa chỉ riêng dễ nhớ cho từng nền tảng.","about.economyTitle":"Kinh tế có tiến trình","about.economy":"Farm, bán vật phẩm, nâng hệ số và xây dựng tài sản theo cách chơi của riêng bạn.","about.communityTitle":"Cộng đồng trước tiên","about.community":"Luật rõ ràng, hạn chế gian lận và xây dựng môi trường thân thiện cho cả người mới.",
         "founder.kicker":"Leadership","founder.title":"Hai người đứng sau KonomiMC.","founder.lorleyNote":"Đồng sáng lập, hỗ trợ vận hành cộng đồng và phụ trách liên hệ nạp bằng thẻ.",
-        "bank.kicker":"Official support","bank.title":"Bank Admin & nạp server.","bank.desc":"Kênh hỗ trợ chính thức do Founder Nguyễn Hồng Sơn quản lý. Luôn ghi đúng tên nhân vật để được xử lý chính xác.","bank.heading":"Nạp qua QR chính thức","bank.body":"Quét mã trong ảnh, nhập nội dung chuyển khoản theo mẫu và giữ lại biên lai. Hệ thống nạp mở từ ngày 15/07/2026.","bank.step1":"Quét QR của Bank Admin Nguyễn Hồng Sơn.","bank.step2":"Nội dung: TÊN NGƯỜI CHƠI - KONOMI.","bank.step3":"Gửi biên lai qua Discord nếu giao dịch chưa được xử lý.","bank.warning":"<strong>Lưu ý:</strong> Nạp bằng thẻ liên hệ Hoàng Trần và giá trị quy đổi còn 80% (trừ 20%). Nghiêm cấm mua bán vật phẩm hoặc tiền tệ trong game bằng VNĐ giữa người chơi.","bank.qrNote":"Tên người chơi phải trùng với tài khoản trên server. Không công khai biên lai có thông tin nhạy cảm.",
+        "bank.kicker":"Official support","bank.title":"Bank Admin & nạp server.","bank.desc":"Kênh hỗ trợ chính thức do Founder Nguyễn Hồng Sơn quản lý. Luôn ghi đúng tên nhân vật để được xử lý chính xác.","bank.heading":"Nạp qua QR chính thức","bank.body":"Quét mã trong ảnh, nhập nội dung chuyển khoản theo mẫu và giữ lại biên lai. Hệ thống nạp mở từ ngày 15/07/2026.","bank.step1":"Quét QR của Bank Admin Nguyễn Hồng Sơn.","bank.step2":"Nội dung: TÊN NGƯỜI CHƠI - KONOMI.","bank.step3":"Gửi biên lai qua Discord nếu giao dịch chưa được xử lý.","bank.rate":"<span>Tỷ lệ quy đổi cơ bản</span><strong>1 Point = 1.000 VNĐ</strong><small>Chuyển khoản ngân hàng được thưởng thêm 20% Point.</small>","bank.warning":"<strong>Lưu ý:</strong> Nạp bằng thẻ liên hệ Hoàng Trần, được quy đổi 100% mệnh giá nhưng không áp dụng bonus 20% như chuyển khoản ngân hàng. Nghiêm cấm mua bán vật phẩm hoặc tiền tệ trong game bằng VNĐ giữa người chơi.","bank.qrNote":"Tên người chơi phải trùng với tài khoản trên server. Không công khai biên lai có thông tin nhạy cảm.",
         "rules.kicker":"Community standard","rules.title":"Luật Konomi SMP & Discord.","rules.desc":"Tham gia máy chủ đồng nghĩa bạn đã đọc và đồng ý tuân thủ các quy định dưới đây.","rules.minecraft":"Minecraft","rules.penalties":"Xử phạt",
         "music.kicker":"Konomi waves","music.title":"Playlist nghe trực tuyến.","music.desc":"Nhạc nền anime-inspired tự phát ở âm lượng nhẹ. Nếu trình duyệt chặn autoplay, nhạc bắt đầu ở lần tương tác đầu tiên.","music.now":"Đang phát",
         "footer.note":"Không phải sản phẩm chính thức của Mojang hoặc Microsoft. Minecraft là nhãn hiệu của chủ sở hữu tương ứng.",
@@ -1302,7 +1327,7 @@
         "status.kicker":"Live status","status.title":"How is the server doing?","status.desc":"PC is the source of truth; PE mirrors the PC Online, Offline or Maintenance state and MOTD.","status.overall":"Overall status","status.refresh":"Refresh","status.players":"Players","status.version":"Version","status.apiNote":"PE mirrors PC status to prevent mismatched reports. Maintenance is inferred from the PC MOTD.",
         "about.kicker":"Konomi experience","about.title":"An SMP with its own identity.","about.desc":"KonomiMC aims for a polished, accessible experience with enough depth to keep players invested.","about.ecosword":"The featured mode combines economic progression with sword-focused battles.","about.crossTitle":"True cross-play","about.cross":"Java and Bedrock players share one community, with a memorable address for each platform.","about.economyTitle":"Progressive economy","about.economy":"Farm, sell items, unlock multipliers and build wealth in your own way.","about.communityTitle":"Community first","about.community":"Clear rules, strong anti-cheat standards and a welcoming environment for new players.",
         "founder.kicker":"Leadership","founder.title":"The two people behind KonomiMC.","founder.lorleyNote":"Co-founder supporting community operations and card top-up contacts.",
-        "bank.kicker":"Official support","bank.title":"Bank Admin & server top-up.","bank.desc":"The official channel managed by Founder Nguyễn Hồng Sơn. Always include the exact in-game name for accurate processing.","bank.heading":"Official QR top-up","bank.body":"Scan the QR image, use the required transfer note and keep your receipt. Top-up service opened on July 15, 2026.","bank.step1":"Scan Bank Admin Nguyễn Hồng Sơn’s QR.","bank.step2":"Transfer note: PLAYER NAME - KONOMI.","bank.step3":"Send the receipt on Discord if the transaction is not processed.","bank.warning":"<strong>Notice:</strong> For card top-ups, contact Hoàng Trần. Converted value is 80% (20% fee). Real-money trading of in-game items or currency between players is prohibited.","bank.qrNote":"Your player name must match your server account. Never publish receipts containing sensitive information.",
+        "bank.kicker":"Official support","bank.title":"Bank Admin & server top-up.","bank.desc":"The official channel managed by Founder Nguyễn Hồng Sơn. Always include the exact in-game name for accurate processing.","bank.heading":"Official QR top-up","bank.body":"Scan the QR image, use the required transfer note and keep your receipt. Top-up service opened on July 15, 2026.","bank.step1":"Scan Bank Admin Nguyễn Hồng Sơn’s QR.","bank.step2":"Transfer note: PLAYER NAME - KONOMI.","bank.step3":"Send the receipt on Discord if the transaction is not processed.","bank.rate":"<span>Base exchange rate</span><strong>1 Point = 1,000 VND</strong><small>Bank transfers receive 20% bonus Points.</small>","bank.warning":"<strong>Notice:</strong> For card top-ups, contact Hoàng Trần. Card value is converted at 100% of face value, but the 20% bank-transfer bonus does not apply. Real-money trading of in-game items or currency between players is prohibited.","bank.qrNote":"Your player name must match your server account. Never publish receipts containing sensitive information.",
         "rules.kicker":"Community standard","rules.title":"Konomi SMP & Discord rules.","rules.desc":"By joining, you confirm that you have read and agreed to the rules below.","rules.minecraft":"Minecraft","rules.penalties":"Penalties",
         "music.kicker":"Konomi waves","music.title":"Online listening playlist.","music.desc":"Anime-inspired background music attempts low-volume autoplay. If blocked, it starts on the first interaction.","music.now":"Now playing",
         "footer.note":"Not an official Mojang or Microsoft product. Minecraft is a trademark of its respective owners.",
@@ -1672,7 +1697,7 @@
       document.documentElement.classList.add("cursor-enhanced");
 
       const pointer = { x: innerWidth / 2, y: innerHeight / 2, lastX: innerWidth / 2, lastY: innerHeight / 2, visible: false, speed: 0 };
-      const trail = Array.from({ length: 25 }, () => ({ x: pointer.x, y: pointer.y }));
+      const trail = Array.from({ length: 14 }, () => ({ x: pointer.x, y: pointer.y }));
       const particles = [];
       const pulses = [];
       let dpr = 1;
@@ -1686,7 +1711,7 @@
         : { cyan: [70, 220, 255], blue: [80, 105, 255], white: [226, 252, 255] };
 
       function resizeCanvas() {
-        dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        dpr = 1;
         canvas.width = Math.max(1, Math.floor(innerWidth * dpr));
         canvas.height = Math.max(1, Math.floor(innerHeight * dpr));
         canvas.style.width = `${innerWidth}px`;
@@ -1699,17 +1724,17 @@
       }
 
       function addParticle(x, y, vx, vy, life = 1, size = 2.2, diamond = false) {
-        if (particles.length >= 44) particles.shift();
+        if (particles.length >= 18) particles.shift();
         particles.push({ x, y, vx, vy, life, maxLife: life, size, rotation: Math.random() * Math.PI, spin: (Math.random() - .5) * .2, diamond });
       }
 
       function emitMovementParticles(dx, dy, speed, now) {
-        if (speed < 9 || now - lastParticleTime < 24) return;
+        if (speed < 11 || now - lastParticleTime < 48) return;
         lastParticleTime = now;
         const length = Math.hypot(dx, dy) || 1;
         const nx = -dy / length;
         const ny = dx / length;
-        const count = speed > 28 ? 2 : 1;
+        const count = 1;
         for (let index = 0; index < count; index += 1) {
           const side = index % 2 ? -1 : 1;
           const spread = 4 + Math.random() * 6;
@@ -1728,8 +1753,8 @@
       function emitClickPulse() {
         pulses.push({ x: pointer.x, y: pointer.y, radius: 7, alpha: .92, width: 2.1 });
         if (pulses.length > 6) pulses.shift();
-        for (let index = 0; index < 10; index += 1) {
-          const angle = (Math.PI * 2 * index) / 10 + Math.random() * .18;
+        for (let index = 0; index < 6; index += 1) {
+          const angle = (Math.PI * 2 * index) / 6 + Math.random() * .18;
           const velocity = 1.6 + Math.random() * 2.8;
           addParticle(pointer.x, pointer.y, Math.cos(angle) * velocity, Math.sin(angle) * velocity, .9, 1.7 + Math.random() * 2.4, true);
         }
@@ -1782,7 +1807,7 @@
           context.stroke();
         }
 
-        for (let strand = 0; strand < 2; strand += 1) {
+        for (let strand = 0; strand < 1; strand += 1) {
           for (let index = trail.length - 2; index >= 0; index -= 1) {
             const progress = 1 - index / (trail.length - 1);
             const alpha = Math.pow(progress, 1.45) * .36;
@@ -1801,7 +1826,7 @@
         }
 
         // Small moving energy fins make the trail feel like a liquid data stream.
-        for (let index = 4; index < trail.length - 2; index += 4) {
+        for (let index = 5; index < trail.length - 2; index += 6) {
           const progress = 1 - index / (trail.length - 1);
           const point = trail[index];
           const next = trail[index - 1];
@@ -1877,22 +1902,19 @@
         context.restore();
       }
 
-      function animate(time) {
-        frameId = requestAnimationFrame(animate);
-        if (!running) return;
-        context.clearRect(0, 0, innerWidth, innerHeight);
-        if (!pointer.visible) return;
+      function requestCursorFrame() {
+        if (running && !frameId) frameId = requestAnimationFrame(animate);
+      }
 
-        updateTrail();
-        const colors = palette();
-        drawRibbon(time, colors);
-        drawParticles(colors);
-        drawPulses(colors);
+      function animate(time) {
+        frameId = 0;
+        if (!running || !pointer.visible) return;
 
         const scale = document.body.classList.contains("cursor-down") ? .76 : document.body.classList.contains("cursor-hover") ? 1.18 : 1;
         cursor.style.setProperty("--cursor-scale", scale.toFixed(2));
         cursor.style.setProperty("--cursor-speed", Math.min(pointer.speed / 28, 1).toFixed(3));
         cursor.style.transform = `translate3d(${pointer.x}px, ${pointer.y}px, 0) translate(-50%, -50%) scale(${scale})`;
+        pointer.speed *= .88;
       }
 
       window.addEventListener("pointermove", event => {
@@ -1910,15 +1932,18 @@
         pointer.visible = true;
         cursor.classList.add("visible");
         document.body.classList.toggle("cursor-hover", Boolean(event.target.closest('a, button, input, textarea, select, [role="button"], .track, .feature-card, .copy-action')));
-        emitMovementParticles(dx, dy, pointer.speed, now);
+        requestCursorFrame();
       }, { passive: true });
 
       window.addEventListener("pointerdown", () => {
         if (!pointer.visible) return;
         document.body.classList.add("cursor-down");
-        emitClickPulse();
+        requestCursorFrame();
       }, { passive: true });
-      window.addEventListener("pointerup", () => document.body.classList.remove("cursor-down"), { passive: true });
+      window.addEventListener("pointerup", () => {
+        document.body.classList.remove("cursor-down");
+        requestCursorFrame();
+      }, { passive: true });
       document.documentElement.addEventListener("mouseleave", () => {
         pointer.visible = false;
         cursor.classList.remove("visible");
@@ -1929,11 +1954,11 @@
         cursor.classList.remove("visible");
         document.body.classList.remove("cursor-hover", "cursor-down");
       });
-      document.addEventListener("visibilitychange", () => { running = !document.hidden; });
-      window.addEventListener("resize", resizeCanvas, { passive: true });
-      resizeCanvas();
-      animate(performance.now());
-
+      document.addEventListener("visibilitychange", () => {
+        running = !document.hidden;
+        document.body.classList.toggle("tab-hidden", document.hidden);
+        if (running && pointer.visible) requestCursorFrame();
+      });
       window.addEventListener("pagehide", () => cancelAnimationFrame(frameId), { once: true });
     }
 
@@ -1954,13 +1979,20 @@
 
       const header = $("#siteHeader");
       const sections = $$('main section[id]');
-      window.addEventListener("scroll", () => {
+      const navLinks = $$("#nav a");
+      let scrollFrame = 0;
+      const updateScrollState = () => {
+        scrollFrame = 0;
         header.classList.toggle("scrolled", window.scrollY > 16);
         const y = window.scrollY + 110;
         let active = "";
         sections.forEach(section => { if (section.offsetTop <= y) active = section.id; });
-        $$("#nav a").forEach(link => link.classList.toggle("active", link.getAttribute("href") === `#${active}`));
+        navLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === `#${active}`));
+      };
+      window.addEventListener("scroll", () => {
+        if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollState);
       }, { passive: true });
+      updateScrollState();
 
       const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); } }), { threshold: .12 });
       $$(".reveal").forEach(element => observer.observe(element));
